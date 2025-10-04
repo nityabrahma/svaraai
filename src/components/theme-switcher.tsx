@@ -1,39 +1,46 @@
 'use client'
 
-import { Moon, Sun } from 'lucide-react'
+import { Laptop, Moon, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
 
-import { Button } from '@/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+import { Label } from '@/components/ui/label'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 
 export function ThemeSwitcher() {
-  const { setTheme } = useTheme()
+  const { theme, setTheme } = useTheme()
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon">
-          <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-          <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-          <span className="sr-only">Toggle theme</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme('light')}>
-          Light
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('dark')}>
-          Dark
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('system')}>
-          System
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <RadioGroup
+      defaultValue={theme}
+      onValueChange={setTheme}
+      className="flex items-center space-x-1 rounded-full border p-1"
+    >
+      <RadioGroupItem value="light" id="light" className="peer sr-only" />
+      <Label
+        htmlFor="light"
+        className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-2 border-transparent transition-colors hover:bg-accent/50 [&:has([data-state=checked])]:bg-accent"
+      >
+        <Sun className="h-5 w-5" />
+        <span className="sr-only">Light</span>
+      </Label>
+
+      <RadioGroupItem value="dark" id="dark" className="peer sr-only" />
+      <Label
+        htmlFor="dark"
+        className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-2 border-transparent transition-colors hover:bg-accent/50 [&:has([data-state=checked])]:bg-accent"
+      >
+        <Moon className="h-5 w-5" />
+        <span className="sr-only">Dark</span>
+      </Label>
+
+      <RadioGroupItem value="system" id="system" className="peer sr-only" />
+      <Label
+        htmlFor="system"
+        className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-2 border-transparent transition-colors hover:bg-accent/50 [&:has([data-state=checked])]:bg-accent"
+      >
+        <Laptop className="h-5 w-5" />
+        <span className="sr-only">System</span>
+      </Label>
+    </RadioGroup>
   )
 }
