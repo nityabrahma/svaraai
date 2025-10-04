@@ -17,19 +17,21 @@ export default function AppLayout({
 }>) {
   const { user, loading } = useUser();
   const router = useRouter();
-  const [sidebarOpen, setSidebarOpen] = useState(true);
   const isMobile = useIsMobile();
+  // Default to open on desktop, closed on mobile after mount
+  const [sidebarOpen, setSidebarOpen] = useState(false); 
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setSidebarOpen(!isMobile);
+    }
+  }, [isMobile]);
 
   useEffect(() => {
     if (!loading && !user) {
       router.push('/login');
     }
   }, [user, loading, router]);
-  
-  useEffect(() => {
-    // Collapse on mobile, expand on desktop by default
-    setSidebarOpen(!isMobile);
-  }, [isMobile]);
 
   if (loading || !user) {
     return (

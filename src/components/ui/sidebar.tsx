@@ -61,8 +61,8 @@ export const Sidebar = React.forwardRef<
     <div
       ref={ref}
       className={cn(
-        "hidden md:fixed md:top-0 md:left-0 md:h-full md:flex-col md:transition-all md:duration-300 md:ease-in-out z-40",
-        open ? "md:w-64" : "md:w-16",
+        "fixed top-0 left-0 h-full z-40 flex flex-col transition-all duration-300 ease-in-out",
+        open ? "w-64" : "w-16",
         className
       )}
       {...props}
