@@ -26,6 +26,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
+import { cn } from '@/lib/utils';
 
 const initialWebhooks: Webhook[] = [
   {
@@ -46,7 +47,7 @@ export default function Webhooks() {
   const [webhooks, setWebhooks] = useState(initialWebhooks);
 
   return (
-    <Card className="max-w-2xl">
+    <Card className="max-w-2xl border">
       <CardHeader>
         <div className="flex items-center justify-between">
             <div>
