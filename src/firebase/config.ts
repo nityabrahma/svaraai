@@ -5,11 +5,11 @@
 // project, and add a web app.
 
 export const firebaseConfig = {
-  apiKey: "TODO: YOUR_API_KEY",
-  authDomain: "TODO: YOUR_AUTH_DOMAIN",
-  projectId: "TODO: YOUR_PROJECT_ID",
-  storageBucket: "TODO: YOUR_STORAGE_BUCKET",
-  messagingSenderId: "TODO: YOUR_MESSAGING_SENDER_ID",
-  appId: "TODO: YOUR_APP_ID",
-  measurementId: "TODO: YOUR_MEASUREMENT_ID"
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_AUTH_DOMAIN",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_STORAGE_BUCKET",
+  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+  appId: "YOUR_APP_ID",
+  measurementId: "YOUR_MEASUREMENT_ID"
 };
