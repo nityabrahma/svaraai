@@ -5,13 +5,24 @@ import { useTheme } from 'next-themes'
 
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { useEffect, useState } from 'react'
+import { Skeleton } from './ui/skeleton'
 
 export function ThemeSwitcher() {
   const { theme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) {
+    return <Skeleton className="h-10 w-[114px] rounded-full" />
+  }
 
   return (
     <RadioGroup
-      defaultValue={theme}
+      value={theme}
       onValueChange={setTheme}
       className="flex items-center space-x-1 rounded-full border p-1"
     >
