@@ -27,7 +27,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { useRouter } from 'next/navigation';
 import { toast } from '@/hooks/use-toast';
 import { motion } from 'framer-motion';
-import { ThemeSwitcher } from '../theme-switcher';
 import { useAuth } from '@/hooks/use-auth';
 
 
@@ -78,8 +77,6 @@ export default function Header({ onToggleSidebar }: { onToggleSidebar: () => voi
             </div>
           </form>
         </div>
-
-        <ThemeSwitcher />
 
         <Button variant="ghost" size="icon" className="relative">
           <Bell className="h-5 w-5" />

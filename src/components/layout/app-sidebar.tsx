@@ -11,6 +11,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { useSidebar } from '../ui/sidebar';
+import { ThemeSwitcher } from '../theme-switcher';
 
 const navItems = [
   { href: '/dashboard', icon: Gauge, label: 'Dashboard' },
@@ -60,6 +61,9 @@ export default function AppSidebar() {
             })}
             </TooltipProvider>
         </nav>
+        <div className="mt-auto flex flex-col items-center gap-2 p-4">
+            {state === 'expanded' && <ThemeSwitcher />}
+        </div>
     </div>
   );
 }
