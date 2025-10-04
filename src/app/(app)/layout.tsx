@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useUser } from '@/hooks/use-user';
@@ -7,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { SidebarProvider, Sidebar, SidebarInset } from '@/components/ui/sidebar';
 import AppSidebar from '@/components/layout/app-sidebar';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export default function AppLayout({
   children,
@@ -15,15 +17,8 @@ export default function AppLayout({
 }>) {
   const { user, loading } = useUser();
   const router = useRouter();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [isDesktop, setIsDesktop] = useState(true);
-
-  useEffect(() => {
-    const checkIsDesktop = () => setIsDesktop(window.innerWidth >= 768);
-    checkIsDesktop();
-    window.addEventListener('resize', checkIsDesktop);
-    return () => window.removeEventListener('resize', checkIsDesktop);
-  }, []);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     if (!loading && !user) {
@@ -32,8 +27,9 @@ export default function AppLayout({
   }, [user, loading, router]);
   
   useEffect(() => {
-    setSidebarOpen(isDesktop);
-  }, [isDesktop]);
+    // Collapse on mobile, expand on desktop by default
+    setSidebarOpen(!isMobile);
+  }, [isMobile]);
 
   if (loading || !user) {
     return (

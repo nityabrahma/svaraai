@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -7,7 +8,7 @@ import { useIsMobile } from "@/hooks/use-mobile"
 
 type SidebarContextValue = {
   open: boolean;
-  setOpen: (open: boolean) => void;
+  onOpenChange: (open: boolean) => void;
   isMobile: boolean;
 };
 
@@ -23,22 +24,15 @@ export function useSidebar() {
 
 export function SidebarProvider({
   children,
-  open: controlledOpen,
-  onOpenChange: setControlledOpen,
-  defaultOpen = true,
+  open,
+  onOpenChange,
 }: {
   children: React.ReactNode;
-  open?: boolean;
-  onOpenChange?: (open: boolean) => void;
-  defaultOpen?: boolean;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 }) {
   const isMobile = useIsMobile();
-  const [internalOpen, setInternalOpen] = React.useState(defaultOpen);
-
-  const open = controlledOpen ?? internalOpen;
-  const setOpen = setControlledOpen ?? setInternalOpen;
-  
-  const value = React.useMemo(() => ({ open, setOpen, isMobile }), [open, setOpen, isMobile]);
+  const value = React.useMemo(() => ({ open, onOpenChange, isMobile }), [open, onOpenChange, isMobile]);
 
   return (
     <SidebarContext.Provider value={value}>
@@ -51,13 +45,12 @@ export const Sidebar = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => {
-  const { open, setOpen, isMobile } = useSidebar();
-  const state = open && !isMobile ? 'expanded' : 'collapsed';
+  const { open, onOpenChange, isMobile } = useSidebar();
 
   if (isMobile) {
     return (
-      <Sheet open={open} onOpenChange={setOpen}>
-        <SheetContent side="left" className="w-[300px] p-0">
+      <Sheet open={open} onOpenChange={onOpenChange}>
+        <SheetContent side="left" className="w-[300px] p-0 border-r-0">
           <div ref={ref} className={cn("h-full", className)} {...props} />
         </SheetContent>
       </Sheet>
@@ -67,13 +60,9 @@ export const Sidebar = React.forwardRef<
   return (
     <div
       ref={ref}
-      data-state={state}
       className={cn(
-        "hidden md:flex flex-col transition-all duration-300 ease-in-out",
-        {
-          "w-64": state === 'expanded',
-          "w-16": state === 'collapsed',
-        },
+        "hidden md:fixed md:top-0 md:left-0 md:h-full md:flex-col md:transition-all md:duration-300 md:ease-in-out z-40",
+        open ? "md:w-64" : "md:w-16",
         className
       )}
       {...props}
@@ -88,17 +77,13 @@ export const SidebarInset = React.forwardRef<
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => {
     const { open, isMobile } = useSidebar();
-    const state = open && !isMobile ? 'expanded' : 'collapsed';
   
     return (
         <div
         ref={ref}
         className={cn(
             "transition-all duration-300 ease-in-out",
-            {
-                "md:ml-64": state === 'expanded',
-                "md:ml-16": state === 'collapsed',
-            },
+            !isMobile && (open ? "md:ml-64" : "md:ml-16"),
             className
         )}
         {...props}
