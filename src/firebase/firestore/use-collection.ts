@@ -1,10 +1,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { collection, onSnapshot, Query, DocumentData, QuerySnapshot } from 'firebase/firestore';
-import { useFirestore } from '@/firebase/provider';
+import { onSnapshot, Query, DocumentData, QuerySnapshot } from 'firebase/firestore';
 import { errorEmitter } from '@/firebase/error-emitter';
 import { FirestorePermissionError } from '@/firebase/errors';
+
+interface UseCollectionOptions<T> {
+    onNewData?: (snapshot: QuerySnapshot<T>) => void;
+}
 
 interface UseCollection<T> {
   data: T[] | null;
@@ -12,7 +15,10 @@ interface UseCollection<T> {
   error: Error | null;
 }
 
-export function useCollection<T = DocumentData>(query: Query<T> | null): UseCollection<T> {
+export function useCollection<T = DocumentData>(
+    query: Query<T> | null,
+    options?: UseCollectionOptions<T>
+): UseCollection<T> {
   const [data, setData] = useState<T[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
@@ -31,6 +37,9 @@ export function useCollection<T = DocumentData>(query: Query<T> | null): UseColl
       (snapshot: QuerySnapshot<T>) => {
         const result: T[] = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
         setData(result);
+        if (options?.onNewData) {
+            options.onNewData(snapshot);
+        }
         setLoading(false);
         setError(null);
       },
@@ -47,6 +56,7 @@ export function useCollection<T = DocumentData>(query: Query<T> | null): UseColl
     );
 
     return () => unsubscribe();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
 
   return { data, loading, error };

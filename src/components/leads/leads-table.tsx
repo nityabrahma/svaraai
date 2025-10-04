@@ -34,7 +34,6 @@ import { Button } from '../ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu'
 import Link from 'next/link'
 import { Checkbox } from '../ui/checkbox'
-import { deleteDoc, doc, getFirestore } from 'firebase/firestore'
 import { useFirebase } from '@/firebase/provider'
 import { toast } from '@/hooks/use-toast'
 import {
@@ -48,34 +47,32 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
 import { enrichLeadDataWithLLM } from '@/ai/flows/enrich-lead-data-with-llm'
+import { deleteLead } from '@/firebase/firestore/api'
 
 const LeadActions = ({ row }: { row: Row<Lead> }) => {
     const lead = row.original;
-    const { app } = useFirebase();
+    const { firestore } = useFirebase();
     const [isDeleting, setIsDeleting] = React.useState(false);
     const [isEnriching, setIsEnriching] = React.useState(false);
     const [showDeleteAlert, setShowDeleteAlert] = React.useState(false);
 
     const handleDelete = async () => {
         setIsDeleting(true);
-        const firestore = getFirestore(app);
-        try {
-            await deleteDoc(doc(firestore, 'leads', lead.id));
+        const success = await deleteLead(firestore, lead.id);
+        if (success) {
             toast({
                 title: 'Lead deleted',
                 description: `Lead "${lead.name}" has been deleted.`,
             });
-        } catch (error) {
-            console.error('Error deleting lead:', error);
-            toast({
+        } else {
+             toast({
                 variant: 'destructive',
                 title: 'Error deleting lead',
                 description: 'An unexpected error occurred.',
             });
-        } finally {
-            setIsDeleting(false);
-            setShowDeleteAlert(false);
         }
+        setIsDeleting(false);
+        setShowDeleteAlert(false);
     };
     
     const handleEnrich = async () => {
@@ -269,6 +266,7 @@ export default function LeadsTable({ data }: { data: Lead[] }) {
       rowSelection,
       columnFilters,
     },
+    manualPagination: true,
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
@@ -276,7 +274,6 @@ export default function LeadsTable({ data }: { data: Lead[] }) {
     onColumnVisibilityChange: setColumnVisibility,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
@@ -335,7 +332,7 @@ export default function LeadsTable({ data }: { data: Lead[] }) {
           </TableBody>
         </Table>
       </div>
-      <DataTablePagination table={table} />
+      {/* Remove pagination controls as they are now handled at page level */}
     </div>
   )
 }

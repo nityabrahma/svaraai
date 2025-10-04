@@ -16,7 +16,6 @@ import { MoreHorizontal, PauseCircle, PlayCircle, Trash2, RefreshCw } from 'luci
 import { Button } from '../ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
 import { formatDistanceToNow } from 'date-fns';
-import { doc, deleteDoc, updateDoc, getFirestore, serverTimestamp } from 'firebase/firestore';
 import { useFirebase } from '@/firebase/provider';
 import { toast } from '@/hooks/use-toast';
 import {
@@ -29,65 +28,50 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import { deleteScrapingJob, updateScrapingJobStatus, rerunScrapingJob } from '@/firebase/firestore/api';
 
 type ScrapeJobsTableProps = {
   data: ScrapeJob[];
 };
 
 const JobActions = ({ job }: { job: ScrapeJob }) => {
-    const { app } = useFirebase();
+    const { firestore } = useFirebase();
     const [isDeleting, setIsDeleting] = React.useState(false);
     const [showDeleteAlert, setShowDeleteAlert] = React.useState(false);
     const [isUpdating, setIsUpdating] = React.useState(false);
 
     const handleDelete = async () => {
         setIsDeleting(true);
-        const firestore = getFirestore(app);
-        try {
-            await deleteDoc(doc(firestore, 'scrapingJobs', job.id));
+        const success = await deleteScrapingJob(firestore, job.id);
+        if (success) {
             toast({ title: 'Job deleted', description: `Job for ${job.targetUrl} has been deleted.` });
-        } catch (error) {
-            console.error('Error deleting job:', error);
-            toast({ variant: 'destructive', title: 'Error', description: 'Could not delete job.' });
-        } finally {
-            setIsDeleting(false);
-            setShowDeleteAlert(false);
+        } else {
+             toast({ variant: 'destructive', title: 'Error', description: 'Could not delete job.' });
         }
+        setIsDeleting(false);
+        setShowDeleteAlert(false);
     };
 
     const handleUpdateStatus = async (status: ScrapeJob['status']) => {
         setIsUpdating(true);
-        const firestore = getFirestore(app);
-        try {
-            const jobRef = doc(firestore, 'scrapingJobs', job.id);
-            await updateDoc(jobRef, { status: status, updatedAt: serverTimestamp() });
-            toast({ title: 'Job updated', description: `Job for ${job.targetUrl} is now ${status}.` });
-        } catch (error) {
-            console.error('Error updating job:', error);
+        const success = await updateScrapingJobStatus(firestore, job.id, status);
+        if (success) {
+             toast({ title: 'Job updated', description: `Job for ${job.targetUrl} is now ${status}.` });
+        } else {
             toast({ variant: 'destructive', title: 'Error', description: 'Could not update job status.' });
-        } finally {
-            setIsUpdating(false);
         }
+        setIsUpdating(false);
     };
 
     const handleRerun = async () => {
         setIsUpdating(true);
-        const firestore = getFirestore(app);
-        try {
-            const jobRef = doc(firestore, 'scrapingJobs', job.id);
-            await updateDoc(jobRef, { 
-                status: 'queued', 
-                attempts: 0,
-                updatedAt: serverTimestamp(),
-                scheduledAt: serverTimestamp()
-            });
+        const success = await rerunScrapingJob(firestore, job.id);
+        if (success) {
             toast({ title: 'Job Rerunning', description: `Job for ${job.targetUrl} has been queued.` });
-        } catch (error) {
-            console.error('Error rerunning job:', error);
+        } else {
             toast({ variant: 'destructive', title: 'Error', description: 'Could not rerun job.' });
-        } finally {
-            setIsUpdating(false);
         }
+        setIsUpdating(false);
     };
 
     return (

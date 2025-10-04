@@ -10,10 +10,10 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { useFirebase } from '@/firebase/provider';
-import { addDoc, collection, getFirestore, serverTimestamp } from 'firebase/firestore';
 import { toast } from '@/hooks/use-toast';
 import { useUser } from '@/firebase/auth/use-user';
 import { automaticallyScoreLeads } from '@/ai/flows/automatically-score-leads';
+import { createLead } from '@/firebase/firestore/api';
 
 const newLeadSchema = z.object({
   name: z.string().min(2, 'Name is required.'),
@@ -32,7 +32,7 @@ interface NewLeadDialogProps {
 }
 
 export default function NewLeadDialog({ open, onOpenChange }: NewLeadDialogProps) {
-  const { app } = useFirebase();
+  const { firestore } = useFirebase();
   const { user } = useUser();
   const form = useForm<NewLeadValues>({
     resolver: zodResolver(newLeadSchema),
@@ -44,9 +44,8 @@ export default function NewLeadDialog({ open, onOpenChange }: NewLeadDialogProps
       toast({ variant: 'destructive', title: 'Authentication Error', description: 'You must be logged in to create a lead.' });
       return;
     }
-    const firestore = getFirestore(app);
+    
     try {
-        // First, score the lead
         const scoringToast = toast({ title: 'Scoring lead...', description: 'AI is calculating the lead score.'});
         const scoreResult = await automaticallyScoreLeads({
             leadId: '', // No ID yet
@@ -55,25 +54,28 @@ export default function NewLeadDialog({ open, onOpenChange }: NewLeadDialogProps
         });
         scoringToast.update({ id: scoringToast.id, title: 'Lead Scored!', description: `AI-assigned score: ${scoreResult.score}` });
 
+        const leadData = {
+          ...data,
+          orgId: user.uid, // Using uid as orgId for simplicity
+          status: 'new' as const,
+          score: scoreResult.score,
+        };
+        
+        const success = await createLead(firestore, leadData);
 
-        // Then, add to firestore
-      await addDoc(collection(firestore, 'leads'), {
-        ...data,
-        orgId: user.uid, // Using uid as orgId for simplicity
-        status: 'new',
-        score: scoreResult.score,
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp(),
-      });
-      toast({
-        title: 'Lead created!',
-        description: `${data.name} has been added to your leads.`,
-      });
-      form.reset();
-      onOpenChange(false);
+        if (success) {
+            toast({
+                title: 'Lead created!',
+                description: `${data.name} has been added to your leads.`,
+            });
+            form.reset();
+            onOpenChange(false);
+        } else {
+            toast({ variant: 'destructive', title: 'Error', description: 'Could not create lead.' });
+        }
     } catch (error) {
       console.error('Error creating lead:', error);
-      toast({ variant: 'destructive', title: 'Error', description: 'Could not create lead.' });
+      toast({ variant: 'destructive', title: 'Error', description: 'An unexpected error occurred while creating the lead.' });
     }
   };
 

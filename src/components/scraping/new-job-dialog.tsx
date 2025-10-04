@@ -22,8 +22,8 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useFirebase } from '@/firebase/provider';
-import { addDoc, collection, getFirestore, serverTimestamp } from 'firebase/firestore';
 import { toast } from '@/hooks/use-toast';
+import { createScrapingJob } from '@/firebase/firestore/api';
 
 const newJobSchema = z.object({
   targetUrl: z.string().url('Please enter a valid URL.'),
@@ -37,36 +37,27 @@ interface NewJobDialogProps {
 }
 
 export default function NewJobDialog({ open, onOpenChange }: NewJobDialogProps) {
-  const { app } = useFirebase();
+  const { firestore } = useFirebase();
   const form = useForm<NewJobValues>({
     resolver: zodResolver(newJobSchema),
     defaultValues: { targetUrl: '' },
   });
 
   const onSubmit = async (data: NewJobValues) => {
-    const firestore = getFirestore(app);
-    try {
-      await addDoc(collection(firestore, 'scrapingJobs'), {
-        targetUrl: data.targetUrl,
-        status: 'queued',
-        attempts: 0,
-        scheduledAt: serverTimestamp(),
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp(),
-      });
+    const success = await createScrapingJob(firestore, data.targetUrl);
+    if (success) {
       toast({
         title: 'Job created!',
         description: `Scraping job for ${data.targetUrl} has been queued.`,
       });
       form.reset();
       onOpenChange(false);
-    } catch (error) {
-      console.error('Error creating job:', error);
-      toast({
-        variant: 'destructive',
-        title: 'Error',
-        description: 'Could not create scraping job.',
-      });
+    } else {
+        toast({
+            variant: 'destructive',
+            title: 'Error',
+            description: 'Could not create scraping job.',
+        });
     }
   };
 
