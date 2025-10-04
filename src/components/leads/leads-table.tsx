@@ -4,6 +4,7 @@ import * as React from 'react'
 import {
   ColumnDef,
   ColumnFiltersState,
+  Row,
   SortingState,
   VisibilityState,
   flexRender,
@@ -15,7 +16,6 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-
 import {
   Table,
   TableBody,
@@ -24,17 +24,137 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-
 import { DataTablePagination } from './data-table-pagination'
 import { DataTableToolbar } from './data-table-toolbar'
 import { Lead } from '@/lib/types'
 import { Badge } from '../ui/badge'
-import { Building, MoreHorizontal, PersonStanding } from 'lucide-react'
+import { Building, MoreHorizontal, PersonStanding, Trash2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '../ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu'
 import Link from 'next/link'
 import { Checkbox } from '../ui/checkbox'
+import { deleteDoc, doc, getFirestore } from 'firebase/firestore'
+import { useFirebase } from '@/firebase/provider'
+import { toast } from '@/hooks/use-toast'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog'
+import { enrichLeadDataWithLLM } from '@/ai/flows/enrich-lead-data-with-llm'
+
+const LeadActions = ({ row }: { row: Row<Lead> }) => {
+    const lead = row.original;
+    const { app } = useFirebase();
+    const [isDeleting, setIsDeleting] = React.useState(false);
+    const [isEnriching, setIsEnriching] = React.useState(false);
+    const [showDeleteAlert, setShowDeleteAlert] = React.useState(false);
+
+    const handleDelete = async () => {
+        setIsDeleting(true);
+        const firestore = getFirestore(app);
+        try {
+            await deleteDoc(doc(firestore, 'leads', lead.id));
+            toast({
+                title: 'Lead deleted',
+                description: `Lead "${lead.name}" has been deleted.`,
+            });
+        } catch (error) {
+            console.error('Error deleting lead:', error);
+            toast({
+                variant: 'destructive',
+                title: 'Error deleting lead',
+                description: 'An unexpected error occurred.',
+            });
+        } finally {
+            setIsDeleting(false);
+            setShowDeleteAlert(false);
+        }
+    };
+    
+    const handleEnrich = async () => {
+        setIsEnriching(true);
+        toast({
+            title: 'Enriching lead...',
+            description: `AI is enriching "${lead.name}". This may take a moment.`,
+        });
+        try {
+            const result = await enrichLeadDataWithLLM({
+                leadName: lead.name,
+                leadDescription: lead.summary || '',
+                existingData: {
+                  type: lead.type,
+                  domain: lead.domain,
+                  title: lead.title,
+                }
+            });
+
+            // Here you would typically update the lead in Firestore with `result.enrichedData`
+            // For now, we'll just show a success toast with the summary
+            console.log('Enrichment result:', result);
+
+            toast({
+                title: 'Lead enriched!',
+                description: `AI summary: ${result.summary}`,
+            });
+
+        } catch (error) {
+            console.error("Error enriching lead: ", error);
+            toast({
+                variant: 'destructive',
+                title: 'Enrichment failed',
+                description: 'The AI could not enrich the lead data.',
+            });
+        } finally {
+            setIsEnriching(false);
+        }
+    };
+
+
+    return (
+        <>
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="h-8 w-8 p-0" disabled={isDeleting || isEnriching}>
+                        <span className="sr-only">Open menu</span>
+                        <MoreHorizontal className="h-4 w-4" />
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                    <DropdownMenuItem asChild><Link href={`/leads/${lead.id}`}>View details</Link></DropdownMenuItem>
+                    <DropdownMenuItem onClick={handleEnrich} disabled={isEnriching}>
+                        {isEnriching ? 'Enriching...' : 'Enrich with AI'}
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="text-destructive" onClick={() => setShowDeleteAlert(true)} disabled={isDeleting}>
+                        <Trash2 className="mr-2 h-4 w-4" />
+                        Delete lead
+                    </DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
+            <AlertDialog open={showDeleteAlert} onOpenChange={setShowDeleteAlert}>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Are you sure you want to delete this lead?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            This action cannot be undone. This will permanently delete the lead "{lead.name}".
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={handleDelete}>Delete</AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
+        </>
+    );
+};
+
 
 const columns: ColumnDef<Lead>[] = [
   {
@@ -116,38 +236,21 @@ const columns: ColumnDef<Lead>[] = [
     header: 'Score',
     cell: ({ row }) => {
       const score = parseFloat(row.getValue('score'))
-      const colorClass = score > 85 ? 'text-accent' : score > 70 ? 'text-yellow-500' : 'text-muted-foreground'
+      const colorClass = score > 85 ? 'text-green-500' : score > 70 ? 'text-yellow-500' : 'text-muted-foreground'
       return <div className={cn('font-semibold', colorClass)}>{score}</div>
     }
   },
   {
     accessorKey: 'source',
     header: 'Source',
-    cell: ({ row }) => <div className="capitalize">{row.getValue('source')}</div>,
+    cell: ({ row }) => <div className="capitalize">{row.getValue('source')?.replace('-', ' ')}</div>,
     filterFn: (row, id, value) => {
         return value.includes(row.getValue(id))
     },
   },
   {
     id: "actions",
-    cell: ({ row }) => {
-      const lead = row.original
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem asChild><Link href={`/leads/${lead.id}`}>View details</Link></DropdownMenuItem>
-            <DropdownMenuItem>Enrich lead</DropdownMenuItem>
-            <DropdownMenuItem className="text-destructive">Delete lead</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )
-    },
+    cell: ({ row }) => <LeadActions row={row} />,
   },
 ]
 

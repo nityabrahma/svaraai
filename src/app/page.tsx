@@ -12,11 +12,16 @@ export default function Home() {
             <Bot className="w-8 h-8 text-primary" />
             <span className="text-2xl font-bold font-headline">LeadPilot AI</span>
           </Link>
-          <Button asChild>
-            <Link href="/dashboard">
-              Go to Dashboard <ArrowRight className="ml-2" />
-            </Link>
-          </Button>
+          <div className="flex items-center gap-4">
+            <Button variant="ghost" asChild>
+                <Link href="/login">Log In</Link>
+            </Button>
+            <Button asChild>
+                <Link href="/signup">
+                Sign Up <ArrowRight className="ml-2" />
+                </Link>
+            </Button>
+          </div>
         </div>
       </header>
 
@@ -29,7 +34,7 @@ export default function Home() {
             LeadPilot AI scrapes, enriches, and validates company and contact data, delivering actionable leads so you can focus on closing deals.
           </p>
           <Button size="lg" asChild>
-            <Link href="/dashboard">
+            <Link href="/signup">
               Get Started for Free <ArrowRight className="ml-2" />
             </Link>
           </Button>

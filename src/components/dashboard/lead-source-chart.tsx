@@ -1,32 +1,27 @@
 'use client';
 
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip } from 'recharts';
+import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, PieChart, Pie, Cell } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   ChartContainer,
   ChartTooltipContent,
 } from '@/components/ui/chart';
-
-const chartData = [
-  { source: 'Web Scrape', leads: 450, fill: 'var(--color-web)' },
-  { source: 'LinkedIn', leads: 300, fill: 'var(--color-linkedin)' },
-  { source: 'Uploads', leads: 200, fill: 'var(--color-uploads)' },
-  { source: 'API', leads: 278, fill: 'var(--color-api)' },
-];
+import { Lead } from '@/lib/types';
+import { useMemo } from 'react';
 
 const chartConfig = {
     leads: {
       label: "Leads",
     },
-    web: {
+    'web-scrape': {
       label: "Web Scrape",
       color: "hsl(var(--chart-1))",
     },
-    linkedin: {
+    'linkedin-crawl': {
       label: "LinkedIn",
       color: "hsl(var(--chart-2))",
     },
-    uploads: {
+    'user-upload': {
         label: "Uploads",
         color: "hsl(var(--chart-3))",
     },
@@ -34,9 +29,27 @@ const chartConfig = {
         label: "API",
         color: "hsl(var(--chart-4))",
     }
-  }
+}
 
-export default function LeadSourceChart() {
+const COLORS = Object.values(chartConfig).map(c => c.color).filter(Boolean) as string[];
+
+export default function LeadSourceChart({ leads }: { leads: Lead[] }) {
+  const chartData = useMemo(() => {
+    if (!leads) return [];
+    const sourceCounts = leads.reduce((acc, lead) => {
+      const source = lead.source || 'unknown';
+      acc[source] = (acc[source] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
+
+    return Object.entries(sourceCounts).map(([name, value]) => ({
+      name: chartConfig[name as keyof typeof chartConfig]?.label || name,
+      value,
+      fill: chartConfig[name as keyof typeof chartConfig]?.color,
+    }));
+  }, [leads]);
+
+
   return (
     <Card>
       <CardHeader>
@@ -45,27 +58,51 @@ export default function LeadSourceChart() {
       <CardContent>
         <ChartContainer config={chartConfig} className="h-[300px] w-full">
             <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={chartData} margin={{ top: 20, right: 20, left: -10, bottom: 0 }}>
-                <XAxis
-                dataKey="source"
-                stroke="#888888"
-                fontSize={12}
-                tickLine={false}
-                axisLine={false}
-                />
-                <YAxis
-                stroke="#888888"
-                fontSize={12}
-                tickLine={false}
-                axisLine={false}
-                tickFormatter={(value) => `${value}`}
-                />
-                <Tooltip
+            <PieChart>
+              <Tooltip
                 cursor={{ fill: 'hsl(var(--muted))' }}
                 content={<ChartTooltipContent />}
-                />
-                <Bar dataKey="leads" radius={[4, 4, 0, 0]} />
-            </BarChart>
+              />
+              <Pie
+                data={chartData}
+                dataKey="value"
+                nameKey="name"
+                cx="50%"
+                cy="50%"
+                outerRadius={100}
+                paddingAngle={5}
+                labelLine={false}
+                label={({
+                  cx,
+                  cy,
+                  midAngle,
+                  innerRadius,
+                  outerRadius,
+                  percent,
+                  index,
+                }) => {
+                  const RADIAN = Math.PI / 180
+                  const radius = innerRadius + (outerRadius - innerRadius) * 0.5
+                  const x = cx + radius * Math.cos(-midAngle * RADIAN)
+                  const y = cy + radius * Math.sin(-midAngle * RADIAN)
+                  return (
+                    <text
+                      x={x}
+                      y={y}
+                      fill="white"
+                      textAnchor={x > cx ? 'start' : 'end'}
+                      dominantBaseline="central"
+                    >
+                      {`${(percent * 100).toFixed(0)}%`}
+                    </text>
+                  )
+                }}
+              >
+                {chartData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={entry.fill || COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+            </PieChart>
             </ResponsiveContainer>
         </ChartContainer>
       </CardContent>

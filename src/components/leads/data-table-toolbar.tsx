@@ -9,7 +9,8 @@ import { Input } from "@/components/ui/input"
 import { DataTableViewOptions } from "./data-table-view-options"
 
 import { DataTableFacetedFilter } from "./data-table-faceted-filter"
-import { Lead } from "@/lib/types"
+import { useState } from "react"
+import NewLeadDialog from "./new-lead-dialog"
 
 const statuses = [
     { value: 'new', label: 'New' },
@@ -31,8 +32,10 @@ export function DataTableToolbar<TData>({
   table,
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0
+  const [isNewLeadDialogOpen, setIsNewLeadDialogOpen] = useState(false)
 
   return (
+    <>
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
         <div className="relative">
@@ -72,12 +75,14 @@ export function DataTableToolbar<TData>({
         )}
       </div>
       <div className="flex items-center space-x-2">
-        <Button size="sm" className="h-8">
+        <Button size="sm" className="h-8" onClick={() => setIsNewLeadDialogOpen(true)}>
             <PlusCircle className="mr-2 h-4 w-4" />
             Add Lead
         </Button>
         <DataTableViewOptions table={table} />
       </div>
     </div>
+    <NewLeadDialog open={isNewLeadDialogOpen} onOpenChange={setIsNewLeadDialogOpen} />
+    </>
   )
 }

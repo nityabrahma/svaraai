@@ -31,13 +31,37 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import Image from 'next/image';
 import { useTheme } from 'next-themes';
 import Sidebar from './sidebar';
-import { mockUser } from '@/lib/data';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { useUser } from '@/firebase/auth/use-user';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { getAuth, signOut } from 'firebase/auth';
+import { useFirebase } from '@/firebase/provider';
+import { useRouter } from 'next/navigation';
+import { toast } from '@/hooks/use-toast';
 
 export default function Header() {
   const { setTheme } = useTheme();
+  const { user } = useUser();
+  const { app } = useFirebase();
+  const router = useRouter();
 
-  const userAvatar = PlaceHolderImages.find(p => p.id === 'user-avatar')?.imageUrl;
+  const handleLogout = async () => {
+    const auth = getAuth(app);
+    try {
+      await signOut(auth);
+      router.push('/login');
+      toast({
+        title: 'Logged out',
+        description: 'You have been successfully logged out.',
+      });
+    } catch (error) {
+      console.error('Error signing out: ', error);
+       toast({
+        variant: "destructive",
+        title: 'Logout failed',
+        description: 'There was an error while logging out.',
+      });
+    }
+  };
 
   return (
     <header className="sticky top-0 z-40 flex h-16 items-center gap-4 border-b bg-card px-4 md:px-6">
@@ -91,36 +115,36 @@ export default function Header() {
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="rounded-full">
-              {userAvatar && <Image
-                src={userAvatar}
-                width={32}
-                height={32}
-                alt="User avatar"
-                className="rounded-full"
-                data-ai-hint="person portrait"
-              />}
-            </Button>
+             <Button variant="ghost" size="icon" className="rounded-full">
+                <Avatar className="h-8 w-8">
+                    <AvatarImage src={user?.photoURL || ''} alt={user?.displayName || 'User'} />
+                    <AvatarFallback>{user?.displayName?.charAt(0) || user?.email?.charAt(0)}</AvatarFallback>
+                </Avatar>
+             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56" align="end">
             <DropdownMenuLabel>
                 <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium leading-none">{mockUser.name}</p>
-                    <p className="text-xs leading-none text-muted-foreground">{mockUser.email}</p>
+                    <p className="text-sm font-medium leading-none">{user?.displayName}</p>
+                    <p className="text-xs leading-none text-muted-foreground">{user?.email}</p>
                 </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <User className="mr-2 h-4 w-4" />
-                <span>Profile</span>
-                <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Settings className="mr-2 h-4 w-4" />
-                <span>Settings</span>
-                <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-              </DropdownMenuItem>
+              <Link href="/settings">
+                <DropdownMenuItem>
+                  <User className="mr-2 h-4 w-4" />
+                  <span>Profile</span>
+                  <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+                </DropdownMenuItem>
+              </Link>
+               <Link href="/settings">
+                <DropdownMenuItem>
+                  <Settings className="mr-2 h-4 w-4" />
+                  <span>Settings</span>
+                  <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+                </DropdownMenuItem>
+               </Link>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
@@ -128,7 +152,7 @@ export default function Header() {
               <span>Support</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout}>
               <LogOut className="mr-2 h-4 w-4" />
               <span>Log out</span>
               <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>

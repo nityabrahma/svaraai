@@ -1,3 +1,5 @@
+import { Timestamp } from "firebase/firestore";
+
 export type Organization = {
   id: string;
   name: string;
@@ -25,6 +27,8 @@ export type Lead = {
   source: string;
   status: 'new' | 'verified' | 'invalid' | 'converted';
   score: number;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
 };
 
 export type ScrapeJob = {
@@ -32,8 +36,10 @@ export type ScrapeJob = {
   targetUrl: string;
   status: 'queued' | 'running' | 'done' | 'failed' | 'paused';
   attempts: number;
-  scheduledAt: string;
-  finishedAt?: string;
+  scheduledAt: Timestamp;
+  finishedAt?: Timestamp;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
 };
 
 export type Webhook = {

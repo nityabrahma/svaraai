@@ -17,11 +17,16 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { mockLeads } from '@/lib/data';
+import { Lead } from '@/lib/types';
 import { cn } from '@/lib/utils';
+import { useMemo } from 'react';
 
-export default function RecentLeads() {
-    const recentLeads = mockLeads.slice(0, 5);
+export default function RecentLeads({ leads }: { leads: Lead[] }) {
+    const recentLeads = useMemo(() => {
+        return [...leads]
+            .sort((a, b) => (b.createdAt?.seconds ?? 0) - (a.createdAt?.seconds ?? 0))
+            .slice(0, 5);
+    }, [leads]);
 
   return (
     <Card>
@@ -29,7 +34,7 @@ export default function RecentLeads() {
         <div className="grid gap-2">
           <CardTitle className="font-headline">Recent Leads</CardTitle>
           <CardDescription>
-            You've acquired {mockLeads.length} leads this month.
+            You've acquired {leads.length} leads in total.
           </CardDescription>
         </div>
         <Button asChild size="sm" className="ml-auto gap-1">
