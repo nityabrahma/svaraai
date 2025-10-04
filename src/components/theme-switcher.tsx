@@ -29,7 +29,7 @@ export function ThemeSwitcher() {
       <RadioGroupItem value="light" id="light" className="peer sr-only" />
       <Label
         htmlFor="light"
-        className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-background/5 transition-colors hover:bg-accent/50 [&:has([data-state=checked])]:bg-accent"
+        className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-background/50 transition-colors hover:bg-accent/50 data-[state=checked]:bg-accent [&:has([data-state=checked])]:bg-accent"
       >
         <Sun className="h-5 w-5" />
         <span className="sr-only">Light</span>
@@ -38,7 +38,7 @@ export function ThemeSwitcher() {
       <RadioGroupItem value="dark" id="dark" className="peer sr-only" />
       <Label
         htmlFor="dark"
-        className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-background/5 transition-colors hover:bg-accent/50 [&:has([data-state=checked])]:bg-accent"
+        className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-background/50 transition-colors hover:bg-accent/50 data-[state=checked]:bg-accent [&:has([data-state=checked])]:bg-accent"
       >
         <Moon className="h-5 w-5" />
         <span className="sr-only">Dark</span>
@@ -47,7 +47,7 @@ export function ThemeSwitcher() {
       <RadioGroupItem value="system" id="system" className="peer sr-only" />
       <Label
         htmlFor="system"
-        className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-background/5 transition-colors hover:bg-accent/50 [&:has([data-state=checked])]:bg-accent"
+        className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-background/50 transition-colors hover:bg-accent/50 data-[state=checked]:bg-accent [&:has([data-state=checked])]:bg-accent"
       >
         <Laptop className="h-5 w-5" />
         <span className="sr-only">System</span>
