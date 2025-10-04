@@ -3,6 +3,8 @@ import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 import { FirebaseClientProvider } from '@/firebase/client-provider';
 import { ThemeProvider } from '@/components/theme-provider';
+import BackgroundDecorations from '@/components/background-decorations';
+
 
 export const metadata: Metadata = {
   title: 'LeadPilot AI',
@@ -28,6 +30,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
         >
+            <BackgroundDecorations />
             <FirebaseClientProvider>
             {children}
             </FirebaseClientProvider>
