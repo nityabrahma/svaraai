@@ -4,12 +4,11 @@ import Link from 'next/link';
 import {
   Bell,
   Bot,
-  CircleUser,
-  Home,
   LifeBuoy,
   LogOut,
   Menu,
   Moon,
+  PanelLeft,
   Search,
   Settings,
   Sun,
@@ -27,18 +26,17 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import Image from 'next/image';
 import { useTheme } from 'next-themes';
-import Sidebar from './sidebar';
 import { useUser } from '@/firebase/auth/use-user';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { getAuth, signOut } from 'firebase/auth';
 import { useFirebase } from '@/firebase/provider';
 import { useRouter } from 'next/navigation';
 import { toast } from '@/hooks/use-toast';
+import { motion } from 'framer-motion';
 
-export default function Header() {
+
+export default function Header({ onToggleSidebar }: { onToggleSidebar: () => void }) {
   const { setTheme } = useTheme();
   const { user } = useUser();
   const { app } = useFirebase();
@@ -64,22 +62,17 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-40 flex h-16 items-center gap-4 border-b bg-card px-4 md:px-6">
+    <motion.header 
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ type: "spring", stiffness: 70, damping: 20 }}
+      className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b px-4 md:px-6 glassmorphism">
       <div className="flex w-full items-center gap-4">
-        <div className="md:hidden">
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="outline" size="icon">
-                <Menu className="h-5 w-5" />
-                <span className="sr-only">Toggle navigation menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="left" className="flex flex-col p-0">
-              <Sidebar />
-            </SheetContent>
-          </Sheet>
-        </div>
-
+        <Button variant="ghost" size="icon" onClick={onToggleSidebar}>
+            <PanelLeft className="h-5 w-5" />
+            <span className="sr-only">Toggle Sidebar</span>
+        </Button>
+       
         <div className="w-full flex-1">
           <form>
             <div className="relative">
@@ -87,7 +80,7 @@ export default function Header() {
               <Input
                 type="search"
                 placeholder="Search leads..."
-                className="w-full appearance-none bg-background pl-8 shadow-none md:w-2/3 lg:w-1/3"
+                className="w-full appearance-none bg-background/50 pl-8 shadow-none md:w-2/3 lg:w-1/3"
               />
             </div>
           </form>
@@ -160,6 +153,6 @@ export default function Header() {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-    </header>
+    </motion.header>
   );
 }

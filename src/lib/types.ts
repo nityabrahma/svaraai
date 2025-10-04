@@ -1,23 +1,28 @@
 import { Timestamp } from "firebase/firestore";
 
-export type Organization = {
+// Using interfaces for easier extension in the future
+export interface BaseDocument {
   id: string;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+}
+
+export interface Organization extends BaseDocument {
   name: string;
   plan: 'free' | 'pro' | 'enterprise';
   seats: number;
-};
+}
 
-export type User = {
-  id: string;
+export interface UserProfile extends BaseDocument {
+  uid: string;
   orgId: string;
   email: string;
-  name: string;
+  name?: string;
   role: 'admin' | 'member';
-  avatarUrl: string;
-};
+  avatarUrl?: string;
+}
 
-export type Lead = {
-  id: string;
+export interface Lead extends BaseDocument {
   orgId: string;
   type: 'company' | 'person';
   name: string;
@@ -27,24 +32,19 @@ export type Lead = {
   source: string;
   status: 'new' | 'verified' | 'invalid' | 'converted';
   score: number;
-  createdAt: Timestamp;
-  updatedAt: Timestamp;
-};
+}
 
-export type ScrapeJob = {
-  id: string;
+export interface ScrapeJob extends BaseDocument {
   targetUrl: string;
   status: 'queued' | 'running' | 'done' | 'failed' | 'paused';
   attempts: number;
   scheduledAt: Timestamp;
   finishedAt?: Timestamp;
-  createdAt: Timestamp;
-  updatedAt: Timestamp;
-};
+}
 
-export type Webhook = {
-  id: string;
+export interface Webhook extends BaseDocument {
+  orgId: string;
   url: string;
   active: boolean;
   events: string[];
-};
+}

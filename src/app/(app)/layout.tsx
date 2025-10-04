@@ -2,11 +2,12 @@
 
 import { useUser } from '@/firebase/auth/use-user';
 import Header from '@/components/layout/header';
-import Sidebar from '@/components/layout/sidebar';
 import { ThemeProvider } from "@/components/theme-provider";
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
+import { SidebarProvider, Sidebar, SidebarInset } from '@/components/ui/sidebar';
+import AppSidebar from '@/components/layout/app-sidebar';
 
 export default function AppLayout({
   children,
@@ -15,6 +16,7 @@ export default function AppLayout({
 }>) {
   const { user, loading } = useUser();
   const router = useRouter();
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -43,15 +45,19 @@ export default function AppLayout({
         enableSystem
         disableTransitionOnChange
     >
-        <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
-          <Sidebar />
-          <div className="flex flex-col">
-              <Header />
-              <main className="flex-1 bg-background p-4 sm:p-6 lg:p-8">
-                  {children}
-              </main>
-          </div>
-        </div>
+      <SidebarProvider open={sidebarOpen} onOpenChange={setSidebarOpen}>
+        <Sidebar>
+            <AppSidebar />
+        </Sidebar>
+        <SidebarInset>
+            <div className="flex flex-col min-h-screen">
+                <Header onToggleSidebar={() => setSidebarOpen(prev => !prev)} />
+                <main className="flex-1 p-4 sm:p-6 lg:p-8">
+                    {children}
+                </main>
+            </div>
+        </SidebarInset>
+      </SidebarProvider>
     </ThemeProvider>
   );
 }

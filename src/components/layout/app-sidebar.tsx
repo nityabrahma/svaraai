@@ -24,14 +24,14 @@ export default function AppSidebar() {
   const { state } = useSidebar();
 
   return (
-    <div className="flex h-full flex-col">
-        <div className="flex h-16 items-center justify-center border-b px-6 shrink-0">
+    <div className="flex h-full flex-col glassmorphism">
+        <div className={cn("flex h-16 items-center border-b px-4", state === "expanded" ? "justify-start" : "justify-center")}>
             <Link href="/dashboard" className="flex items-center gap-2 font-semibold font-headline">
-            <Bot className="h-6 w-6 text-primary" />
-            {state === 'expanded' && <span>LeadPilot AI</span>}
+            <Bot className="h-6 w-6 text-primary shrink-0" />
+            <span className={cn('overflow-hidden transition-all', { 'w-0': state === 'collapsed', 'w-auto': state === 'expanded' })}>LeadPilot AI</span>
             </Link>
         </div>
-        <nav className="flex-1 space-y-2 p-2">
+        <nav className="flex-1 space-y-1 p-2">
             <TooltipProvider>
             {navItems.map((item) => {
                 const isActive = pathname.startsWith(item.href);
@@ -41,7 +41,8 @@ export default function AppSidebar() {
                     <Link
                         href={item.href}
                         className={cn(
-                        'flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary justify-center md:justify-start',
+                        'flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary',
+                        { 'justify-center': state === 'collapsed'},
                         isActive && 'bg-muted text-primary'
                         )}
                     >
