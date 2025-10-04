@@ -29,7 +29,7 @@ export default function AppSidebar() {
   return (
     <div className="flex h-full flex-col glassmorphism">
         <div className={cn("flex h-16 items-center border-b", state === "expanded" ? "justify-start px-4" : "justify-center")}>
-            <Link href="/dashboard" className="flex items-center gap-2 font-semibold font-headline">
+            <Link href="/dashboard" className={cn("flex items-center font-semibold font-headline", state === 'expanded' && 'gap-2')}>
             <Bot className="h-6 w-6 text-primary shrink-0" />
             <span className={cn('overflow-hidden transition-all', { 'w-0': state === 'collapsed', 'w-auto': state === 'expanded' })}>LeadPilot AI</span>
             </Link>
@@ -46,7 +46,7 @@ export default function AppSidebar() {
                         className={cn(
                         'flex items-center rounded-lg py-2 text-muted-foreground transition-all hover:text-primary',
                         { 
-                            'justify-center px-3': state === 'collapsed',
+                            'justify-center': state === 'collapsed',
                             'justify-start px-3 gap-3': state === 'expanded',
                         },
                         isActive && 'bg-muted text-primary'
