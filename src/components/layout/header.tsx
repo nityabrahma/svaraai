@@ -3,15 +3,11 @@
 import Link from 'next/link';
 import {
   Bell,
-  Bot,
   LifeBuoy,
   LogOut,
-  Menu,
-  Moon,
   PanelLeft,
   Search,
   Settings,
-  Sun,
   User,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -26,7 +22,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
-import { useTheme } from 'next-themes';
 import { useUser } from '@/firebase/auth/use-user';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { getAuth, signOut } from 'firebase/auth';
@@ -34,10 +29,10 @@ import { useFirebase } from '@/firebase/provider';
 import { useRouter } from 'next/navigation';
 import { toast } from '@/hooks/use-toast';
 import { motion } from 'framer-motion';
+import { ThemeSwitcher } from '../theme-switcher';
 
 
 export default function Header({ onToggleSidebar }: { onToggleSidebar: () => void }) {
-  const { setTheme } = useTheme();
   const { user } = useUser();
   const { app } = useFirebase();
   const router = useRouter();
@@ -80,26 +75,13 @@ export default function Header({ onToggleSidebar }: { onToggleSidebar: () => voi
               <Input
                 type="search"
                 placeholder="Search leads..."
-                className="w-full appearance-none bg-background/50 pl-8 shadow-none md:w-2/3 lg:w-1/3"
+                className="w-full appearance-none bg-transparent pl-8 shadow-none md:w-2/3 lg:w-1/3"
               />
             </div>
           </form>
         </div>
 
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon">
-              <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-              <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-              <span className="sr-only">Toggle theme</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={() => setTheme('light')}>Light</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => setTheme('dark')}>Dark</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => setTheme('system')}>System</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <ThemeSwitcher />
 
         <Button variant="ghost" size="icon" className="relative">
           <Bell className="h-5 w-5" />

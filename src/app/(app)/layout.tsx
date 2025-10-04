@@ -2,7 +2,6 @@
 
 import { useUser } from '@/firebase/auth/use-user';
 import Header from '@/components/layout/header';
-import { ThemeProvider } from "@/components/theme-provider";
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -39,25 +38,18 @@ export default function AppLayout({
   }
 
   return (
-    <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem
-        disableTransitionOnChange
-    >
-      <SidebarProvider open={sidebarOpen} onOpenChange={setSidebarOpen}>
-        <Sidebar>
-            <AppSidebar />
-        </Sidebar>
-        <SidebarInset>
-            <div className="flex flex-col min-h-screen">
-                <Header onToggleSidebar={() => setSidebarOpen(prev => !prev)} />
-                <main className="flex-1 p-4 sm:p-6 lg:p-8">
-                    {children}
-                </main>
-            </div>
-        </SidebarInset>
-      </SidebarProvider>
-    </ThemeProvider>
+    <SidebarProvider open={sidebarOpen} onOpenChange={setSidebarOpen}>
+      <Sidebar>
+          <AppSidebar />
+      </Sidebar>
+      <SidebarInset>
+          <div className="flex flex-col min-h-screen">
+              <Header onToggleSidebar={() => setSidebarOpen(prev => !prev)} />
+              <main className="flex-1 p-4 sm:p-6 lg:p-8">
+                  {children}
+              </main>
+          </div>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }
