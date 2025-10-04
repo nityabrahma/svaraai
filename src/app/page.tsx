@@ -35,7 +35,7 @@ export default function Home() {
           </Button>
         </section>
 
-        <section className="bg-white dark:bg-card py-20">
+        <section className="bg-card py-20">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-3xl font-headline font-bold text-center mb-12">How It Works</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -44,7 +44,7 @@ export default function Home() {
                   <div className="mx-auto bg-primary/10 p-3 rounded-full mb-4 w-fit">
                     <Search className="w-8 h-8 text-primary" />
                   </div>
-                  <CardTitle className="font-headline">1. Automated Scraping</CardTitle>
+                  <CardTitle className="font-headline text-2xl">1. Automated Scraping</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground">
@@ -57,7 +57,7 @@ export default function Home() {
                   <div className="mx-auto bg-accent/10 p-3 rounded-full mb-4 w-fit">
                     <Zap className="w-8 h-8 text-accent" />
                   </div>
-                  <CardTitle className="font-headline">2. AI Enrichment & Validation</CardTitle>
+                  <CardTitle className="font-headline text-2xl">2. AI Enrichment & Validation</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground">
@@ -70,7 +70,7 @@ export default function Home() {
                   <div className="mx-auto bg-primary/10 p-3 rounded-full mb-4 w-fit">
                     <Bot className="w-8 h-8 text-primary" />
                   </div>
-                  <CardTitle className="font-headline">3. Intelligent Scoring</CardTitle>
+                  <CardTitle className="font-headline text-2xl">3. Intelligent Scoring</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground">
