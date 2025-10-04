@@ -4,16 +4,11 @@ import { FileUp, Target, Users, Zap } from 'lucide-react';
 import KpiCard from '@/components/dashboard/kpi-card';
 import LeadSourceChart from '@/components/dashboard/lead-source-chart';
 import RecentLeads from '@/components/dashboard/recent-leads';
-import { useCollection } from '@/firebase/firestore/use-collection';
-import { collection, getFirestore } from 'firebase/firestore';
-import { useFirebase } from '@/firebase/provider';
+import { useCollection } from '@/hooks/use-collection';
 
 export default function DashboardPage() {
-  const { app } = useFirebase();
-  const firestore = getFirestore(app);
-
-  const { data: leads } = useCollection(collection(firestore, 'leads'));
-  const { data: scrapingJobs } = useCollection(collection(firestore, 'scrapingJobs'));
+  const { data: leads } = useCollection('leads');
+  const { data: scrapingJobs } = useCollection('scrapingJobs');
 
   const totalLeads = leads?.length ?? 0;
   const verifiedLeads = leads?.filter(lead => lead.status === 'verified').length ?? 0;

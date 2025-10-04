@@ -1,6 +1,9 @@
-import { Timestamp } from "firebase/firestore";
+// A mock Timestamp for localStorage to mimic Firestore's structure
+export interface Timestamp {
+  seconds: number;
+  nanoseconds: number;
+}
 
-// Using interfaces for easier extension in the future
 export interface BaseDocument {
   id: string;
   createdAt: Timestamp;
@@ -17,9 +20,9 @@ export interface UserProfile extends BaseDocument {
   uid: string;
   orgId: string;
   email: string;
-  name?: string;
+  displayName?: string;
   role: 'admin' | 'member';
-  avatarUrl?: string;
+  photoURL?: string;
 }
 
 export interface Lead extends BaseDocument {

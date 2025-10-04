@@ -4,7 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ProfileForm from '@/components/settings/profile-form';
 import SubscriptionPlan from '@/components/settings/subscription-plan';
 import Webhooks from '@/components/settings/webhooks';
-import { useUser } from '@/firebase/auth/use-user';
+import { useUser } from '@/hooks/use-user';
 import { Skeleton } from '@/components/ui/skeleton';
 
 

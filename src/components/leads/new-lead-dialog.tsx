@@ -9,11 +9,11 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { useFirebase } from '@/firebase/provider';
 import { toast } from '@/hooks/use-toast';
-import { useUser } from '@/firebase/auth/use-user';
+import { useUser } from '@/hooks/use-user';
 import { automaticallyScoreLeads } from '@/ai/flows/automatically-score-leads';
-import { createLead } from '@/firebase/firestore/api';
+import { createLead } from '@/lib/local-storage-api';
+import { useCollection } from '@/hooks/use-collection';
 
 const newLeadSchema = z.object({
   name: z.string().min(2, 'Name is required.'),
@@ -32,8 +32,8 @@ interface NewLeadDialogProps {
 }
 
 export default function NewLeadDialog({ open, onOpenChange }: NewLeadDialogProps) {
-  const { firestore } = useFirebase();
   const { user } = useUser();
+  const { refreshData } = useCollection('leads');
   const form = useForm<NewLeadValues>({
     resolver: zodResolver(newLeadSchema),
     defaultValues: { name: '', type: 'company', domain: '', title: '', source: 'manual', summary: '' },
@@ -61,18 +61,15 @@ export default function NewLeadDialog({ open, onOpenChange }: NewLeadDialogProps
           score: scoreResult.score,
         };
         
-        const success = await createLead(firestore, leadData);
-
-        if (success) {
-            toast({
-                title: 'Lead created!',
-                description: `${data.name} has been added to your leads.`,
-            });
-            form.reset();
-            onOpenChange(false);
-        } else {
-            toast({ variant: 'destructive', title: 'Error', description: 'Could not create lead.' });
-        }
+        await createLead(leadData);
+        
+        toast({
+            title: 'Lead created!',
+            description: `${data.name} has been added to your leads.`,
+        });
+        refreshData();
+        form.reset();
+        onOpenChange(false);
     } catch (error) {
       console.error('Error creating lead:', error);
       toast({ variant: 'destructive', title: 'Error', description: 'An unexpected error occurred while creating the lead.' });

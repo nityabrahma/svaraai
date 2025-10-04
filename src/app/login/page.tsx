@@ -9,12 +9,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Bot, Chrome, LogIn } from 'lucide-react';
-import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { useFirebase } from '@/firebase/provider';
 import { useRouter } from 'next/navigation';
 import { toast } from '@/hooks/use-toast';
-import { FirebaseError } from 'firebase/app';
 import { Separator } from '@/components/ui/separator';
+import { useAuth } from '@/hooks/use-auth';
 
 const loginFormSchema = z.object({
   email: z.string().email('Please enter a valid email address.'),
@@ -24,49 +22,31 @@ const loginFormSchema = z.object({
 type LoginFormValues = z.infer<typeof loginFormSchema>;
 
 export default function LoginPage() {
-  const { app } = useFirebase();
   const router = useRouter();
+  const { signInWithEmail, signInWithGoogle } = useAuth();
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: { email: '', password: '' },
   });
 
   const handleGoogleSignIn = async () => {
-    const auth = getAuth(app);
-    const provider = new GoogleAuthProvider();
     try {
-      await signInWithPopup(auth, provider);
+      await signInWithGoogle();
       toast({ title: 'Logged in!', description: 'Welcome back.' });
       router.push('/dashboard');
     } catch (error) {
       console.error('Google Sign-In Error:', error);
-      toast({ variant: 'destructive', title: 'Login Failed', description: 'Could not sign in with Google.' });
+      toast({ variant: 'destructive', title: 'Login Failed', description: (error as Error).message || 'Could not sign in with Google.' });
     }
   };
 
   const onSubmit = async (data: LoginFormValues) => {
-    const auth = getAuth(app);
     try {
-      await signInWithEmailAndPassword(auth, data.email, data.password);
+      await signInWithEmail(data.email, data.password);
       toast({ title: 'Logged in!', description: 'Welcome back.' });
       router.push('/dashboard');
     } catch (error: any) {
-        let description = 'An unexpected error occurred.';
-        if (error instanceof FirebaseError) {
-            switch (error.code) {
-                case 'auth/user-not-found':
-                case 'auth/wrong-password':
-                    description = 'Invalid email or password.';
-                    break;
-                case 'auth/invalid-credential':
-                    description = 'Invalid credentials provided.';
-                    break;
-                default:
-                    description = 'An error occurred during login.';
-                    break;
-            }
-        }
-      toast({ variant: 'destructive', title: 'Login Failed', description });
+      toast({ variant: 'destructive', title: 'Login Failed', description: (error as Error).message });
     }
   };
 

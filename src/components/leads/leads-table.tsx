@@ -24,7 +24,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { DataTablePagination } from './data-table-pagination'
 import { DataTableToolbar } from './data-table-toolbar'
 import { Lead } from '@/lib/types'
 import { Badge } from '../ui/badge'
@@ -34,7 +33,6 @@ import { Button } from '../ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu'
 import Link from 'next/link'
 import { Checkbox } from '../ui/checkbox'
-import { useFirebase } from '@/firebase/provider'
 import { toast } from '@/hooks/use-toast'
 import {
   AlertDialog,
@@ -47,30 +45,24 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
 import { enrichLeadDataWithLLM } from '@/ai/flows/enrich-lead-data-with-llm'
-import { deleteLead } from '@/firebase/firestore/api'
+import { deleteLead } from '@/lib/local-storage-api'
+import { useCollection } from '@/hooks/use-collection'
 
 const LeadActions = ({ row }: { row: Row<Lead> }) => {
     const lead = row.original;
-    const { firestore } = useFirebase();
+    const { refreshData } = useCollection('leads');
     const [isDeleting, setIsDeleting] = React.useState(false);
     const [isEnriching, setIsEnriching] = React.useState(false);
     const [showDeleteAlert, setShowDeleteAlert] = React.useState(false);
 
     const handleDelete = async () => {
         setIsDeleting(true);
-        const success = await deleteLead(firestore, lead.id);
-        if (success) {
-            toast({
-                title: 'Lead deleted',
-                description: `Lead "${lead.name}" has been deleted.`,
-            });
-        } else {
-             toast({
-                variant: 'destructive',
-                title: 'Error deleting lead',
-                description: 'An unexpected error occurred.',
-            });
-        }
+        await deleteLead(lead.id);
+        toast({
+            title: 'Lead deleted',
+            description: `Lead "${lead.name}" has been deleted.`,
+        });
+        refreshData();
         setIsDeleting(false);
         setShowDeleteAlert(false);
     };
@@ -91,9 +83,7 @@ const LeadActions = ({ row }: { row: Row<Lead> }) => {
                   title: lead.title,
                 }
             });
-
-            // Here you would typically update the lead in Firestore with `result.enrichedData`
-            // For now, we'll just show a success toast with the summary
+            // You would typically update the lead in storage with `result.enrichedData`
             console.log('Enrichment result:', result);
 
             toast({
@@ -332,7 +322,6 @@ export default function LeadsTable({ data }: { data: Lead[] }) {
           </TableBody>
         </Table>
       </div>
-      {/* Remove pagination controls as they are now handled at page level */}
     </div>
   )
 }

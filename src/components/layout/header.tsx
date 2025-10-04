@@ -22,25 +22,23 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
-import { useUser } from '@/firebase/auth/use-user';
+import { useUser } from '@/hooks/use-user';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import { getAuth, signOut } from 'firebase/auth';
-import { useFirebase } from '@/firebase/provider';
 import { useRouter } from 'next/navigation';
 import { toast } from '@/hooks/use-toast';
 import { motion } from 'framer-motion';
 import { ThemeSwitcher } from '../theme-switcher';
+import { useAuth } from '@/hooks/use-auth';
 
 
 export default function Header({ onToggleSidebar }: { onToggleSidebar: () => void }) {
   const { user } = useUser();
-  const { app } = useFirebase();
+  const { signOut } = useAuth();
   const router = useRouter();
 
   const handleLogout = async () => {
-    const auth = getAuth(app);
     try {
-      await signOut(auth);
+      await signOut();
       router.push('/login');
       toast({
         title: 'Logged out',

@@ -5,17 +5,13 @@ import ScrapeJobsTable from "@/components/scraping/scrape-jobs-table";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import NewJobDialog from '@/components/scraping/new-job-dialog';
-import { useCollection } from '@/firebase/firestore/use-collection';
-import { collection, getFirestore } from 'firebase/firestore';
-import { useFirebase } from '@/firebase/provider';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useCollection } from '@/hooks/use-collection';
 
 
 export default function ScrapingPage() {
   const [isNewJobDialogOpen, setIsNewJobDialogOpen] = useState(false);
-  const { app } = useFirebase();
-  const firestore = getFirestore(app);
-  const { data: scrapeJobs, loading } = useCollection(collection(firestore, 'scrapingJobs'));
+  const { data: scrapeJobs, loading } = useCollection('scrapingJobs');
 
 
   return (

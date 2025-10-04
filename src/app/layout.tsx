@@ -1,7 +1,6 @@
 import type {Metadata} from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
-import { FirebaseClientProvider } from '@/firebase/client-provider';
 import { ThemeProvider } from '@/components/theme-provider';
 import BackgroundDecorations from '@/components/background-decorations';
 
@@ -31,9 +30,7 @@ export default function RootLayout({
             disableTransitionOnChange
         >
             <BackgroundDecorations />
-            <FirebaseClientProvider>
             {children}
-            </FirebaseClientProvider>
             <Toaster />
         </ThemeProvider>
       </body>

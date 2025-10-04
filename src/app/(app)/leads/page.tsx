@@ -1,81 +1,41 @@
 'use client';
 
-import { useState } from 'react';
-import { collection, getFirestore, query, orderBy, limit, startAfter, endBefore, limitToLast, DocumentData, Query } from 'firebase/firestore';
-import { useFirebase } from '@/firebase/provider';
+import { useState, useEffect, useMemo } from 'react';
 import LeadsTable from '@/components/leads/leads-table';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useCollection } from '@/firebase/firestore/use-collection';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Lead } from '@/lib/types';
+import { useCollection } from '@/hooks/use-collection';
 
 const LEADS_PER_PAGE = 10;
 
 export default function LeadsPage() {
-  const { app } = useFirebase();
-  const firestore = getFirestore(app);
+  const { data: allLeads, loading } = useCollection<Lead>('leads');
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const [pagination, setPagination] = useState<{
-    page: number;
-    lastVisible: DocumentData | null;
-    firstVisible: DocumentData | null;
-  }>({
-    page: 0,
-    lastVisible: null,
-    firstVisible: null,
-  });
+  const totalPages = useMemo(() => {
+    if (!allLeads) return 0;
+    return Math.ceil(allLeads.length / LEADS_PER_PAGE);
+  }, [allLeads]);
 
-  const getLeadsQuery = () => {
-    const baseQuery = query(
-      collection(firestore, 'leads'),
-      orderBy('createdAt', 'desc')
-    );
-
-    if (pagination.page > 0 && pagination.lastVisible) {
-      return query(baseQuery, startAfter(pagination.lastVisible), limit(LEADS_PER_PAGE));
-    }
-    
-    return query(baseQuery, limit(LEADS_PER_PAGE));
-  };
-  
-  const [leadsQuery, setLeadsQuery] = useState<Query<Lead>>(getLeadsQuery as Query<Lead>);
-
-  const { data: leads, loading } = useCollection<Lead>(leadsQuery, {
-      onNewData: (snapshot) => {
-        if (!snapshot.empty) {
-            setPagination(prev => ({
-                ...prev,
-                firstVisible: snapshot.docs[0],
-                lastVisible: snapshot.docs[snapshot.docs.length - 1],
-            }));
-        }
-      }
-  });
+  const leadsForCurrentPage = useMemo(() => {
+    if (!allLeads) return [];
+    const sortedLeads = [...allLeads].sort((a, b) => (b.createdAt?.seconds ?? 0) - (a.createdAt?.seconds ?? 0));
+    const startIndex = (currentPage - 1) * LEADS_PER_PAGE;
+    const endIndex = startIndex + LEADS_PER_PAGE;
+    return sortedLeads.slice(startIndex, endIndex);
+  }, [allLeads, currentPage]);
 
   const handleNextPage = () => {
-    if (leads && leads.length === LEADS_PER_PAGE) {
-        const nextPageQuery = query(
-            collection(firestore, 'leads'),
-            orderBy('createdAt', 'desc'),
-            startAfter(pagination.lastVisible),
-            limit(LEADS_PER_PAGE)
-        );
-        setLeadsQuery(nextPageQuery as Query<Lead>);
-        setPagination(prev => ({ ...prev, page: prev.page + 1 }));
+    if (currentPage < totalPages) {
+      setCurrentPage(prev => prev + 1);
     }
   };
 
   const handlePreviousPage = () => {
-    if (pagination.page > 0) {
-        const prevPageQuery = query(
-            collection(firestore, 'leads'),
-            orderBy('createdAt', 'desc'),
-            endBefore(pagination.firstVisible),
-            limitToLast(LEADS_PER_PAGE)
-        );
-        setLeadsQuery(prevPageQuery as Query<Lead>);
-        setPagination(prev => ({ ...prev, page: prev.page - 1 }));
+    if (currentPage > 1) {
+      setCurrentPage(prev => prev - 1);
     }
   };
 
@@ -100,26 +60,31 @@ export default function LeadsPage() {
         </div>
       ) : (
         <>
-          <LeadsTable data={leads || []} />
-           <div className="flex items-center justify-end space-x-2">
-                <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={handlePreviousPage}
-                    disabled={pagination.page === 0}
-                >
-                    <ChevronLeft className="mr-2 h-4 w-4" />
-                    Previous
-                </Button>
-                <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={handleNextPage}
-                    disabled={!leads || leads.length < LEADS_PER_PAGE}
-                >
-                    Next
-                    <ChevronRight className="ml-2 h-4 w-4" />
-                </Button>
+          <LeadsTable data={leadsForCurrentPage} />
+           <div className="flex items-center justify-between">
+            <span className="text-sm text-muted-foreground">
+              Page {currentPage} of {totalPages}
+            </span>
+            <div className="flex items-center justify-end space-x-2">
+                  <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={handlePreviousPage}
+                      disabled={currentPage === 1}
+                  >
+                      <ChevronLeft className="mr-2 h-4 w-4" />
+                      Previous
+                  </Button>
+                  <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={handleNextPage}
+                      disabled={currentPage >= totalPages}
+                  >
+                      Next
+                      <ChevronRight className="ml-2 h-4 w-4" />
+                  </Button>
+              </div>
             </div>
         </>
       )}

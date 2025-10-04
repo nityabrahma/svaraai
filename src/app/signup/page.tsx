@@ -9,13 +9,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Bot, Chrome, UserPlus } from 'lucide-react';
-import { getAuth, createUserWithEmailAndPassword, updateProfile, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { useFirebase } from '@/firebase/provider';
 import { useRouter } from 'next/navigation';
 import { toast } from '@/hooks/use-toast';
-import { FirebaseError } from 'firebase/app';
-import { getFirestore, doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { Separator } from '@/components/ui/separator';
+import { useAuth } from '@/hooks/use-auth';
 
 const signupFormSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters.'),
@@ -26,66 +23,31 @@ const signupFormSchema = z.object({
 type SignupFormValues = z.infer<typeof signupFormSchema>;
 
 export default function SignupPage() {
-  const { app } = useFirebase();
   const router = useRouter();
+  const { signUpWithEmail, signInWithGoogle } = useAuth();
   const form = useForm<SignupFormValues>({
     resolver: zodResolver(signupFormSchema),
     defaultValues: { name: '', email: '', password: '' },
   });
 
   const handleGoogleSignIn = async () => {
-    const auth = getAuth(app);
-    const provider = new GoogleAuthProvider();
-    const firestore = getFirestore(app);
     try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-       // Create user profile in Firestore
-       await setDoc(doc(firestore, 'users', user.uid), {
-        uid: user.uid,
-        name: user.displayName,
-        email: user.email,
-        role: 'member',
-        createdAt: serverTimestamp(),
-      });
+      await signInWithGoogle();
       toast({ title: 'Account created!', description: 'Welcome to LeadPilot AI.' });
       router.push('/dashboard');
     } catch (error) {
       console.error('Google Sign-In Error:', error);
-      toast({ variant: 'destructive', title: 'Sign up Failed', description: 'Could not sign up with Google.' });
+      toast({ variant: 'destructive', title: 'Sign up Failed', description: (error as Error).message || 'Could not sign up with Google.' });
     }
   };
 
   const onSubmit = async (data: SignupFormValues) => {
-    const auth = getAuth(app);
-    const firestore = getFirestore(app);
-
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
-      const user = userCredential.user;
-
-      // Update user profile with name
-      await updateProfile(user, { displayName: data.name });
-
-      // Create user profile in Firestore
-      await setDoc(doc(firestore, 'users', user.uid), {
-        uid: user.uid,
-        name: data.name,
-        email: data.email,
-        role: 'member',
-        createdAt: serverTimestamp(),
-      });
-
+      await signUpWithEmail(data.name, data.email, data.password);
       toast({ title: 'Account created!', description: 'Welcome to LeadPilot AI.' });
       router.push('/dashboard');
     } catch (error: any) {
-      let description = 'An unexpected error occurred.';
-      if (error instanceof FirebaseError) {
-        if (error.code === 'auth/email-already-in-use') {
-          description = 'This email is already registered. Please log in instead.';
-        }
-      }
-      toast({ variant: 'destructive', title: 'Sign up Failed', description });
+      toast({ variant: 'destructive', title: 'Sign up Failed', description: (error as Error).message });
     }
   };
 
