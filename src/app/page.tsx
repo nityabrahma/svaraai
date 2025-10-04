@@ -154,7 +154,7 @@ export default function Home() {
         </section>
 
         <section className="py-20">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center glassmorphism rounded-lg py-12">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center glassmorphism rounded-lg py-12 max-w-5xl">
                  <h2 className="text-3xl md:text-4xl font-headline font-bold">Ready to Supercharge Your Sales?</h2>
                  <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">Join hundreds of companies finding their next customer with LeadPilot AI.</p>
                  <Button size="lg" asChild className="mt-8">
