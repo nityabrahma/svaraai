@@ -1,57 +1,14 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Bot, CheckCircle2, ChevronRight, Search, Users, Zap } from 'lucide-react';
+import { ArrowRight, Bot, CheckCircle2 } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import Image from 'next/image';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ThemeSwitcher } from '@/components/theme-switcher';
+import { features, testimonials, pricingPlans } from '@/lib/landing-page-data';
+import Marquee from '@/components/ui/marquee';
 
-const features = [
-    {
-        icon: <Search className="w-8 h-8 text-primary" />,
-        title: 'Automated Scraping',
-        description: 'Effortlessly gather company and contact data from millions of public sources without lifting a finger.',
-        image: 'https://picsum.photos/seed/feature1/600/400'
-    },
-    {
-        icon: <Zap className="w-8 h-8 text-primary" />,
-        title: 'AI Enrichment & Validation',
-        description: 'Our generative AI enriches and validates every lead, ensuring you have the most accurate and up-to-date information.',
-        image: 'https://picsum.photos/seed/feature2/600/400'
-    },
-    {
-        icon: <Bot className="w-8 h-8 text-primary" />,
-        title: 'Intelligent Scoring',
-        description: 'Leads are automatically scored for quality, allowing you to prioritize the most promising opportunities.',
-        image: 'https://picsum.photos/seed/feature3/600/400'
-    }
-];
-
-const testimonials = [
-  {
-    name: 'Sarah J.',
-    role: 'CEO of TechCorp',
-    avatar: 'https://picsum.photos/seed/avatar1/100/100',
-    testimonial: 'LeadPilot AI has transformed our sales process. The quality of leads is unparalleled, and the AI scoring is a game-changer.'
-  },
-  {
-    name: 'Mike R.',
-    role: 'Head of Sales at Innovate Ltd.',
-    avatar: 'https://picsum.photos/seed/avatar2/100/100',
-    testimonial: 'We\'ve seen a 300% increase in qualified leads since adopting LeadPilot. It\'s an essential tool for any modern sales team.'
-  },
-   {
-    name: 'Emily K.',
-    role: 'Founder of MarketRise',
-    avatar: 'https://picsum.photos/seed/avatar3/100/100',
-    testimonial: 'The automated scraping and enrichment saves us hundreds of hours per month. It\'s like having a team of data scientists on demand.'
-  },
-]
 
 export default function Home() {
-  const userAvatar = PlaceHolderImages.find(p => p.id === 'user-avatar');
-
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <header className="sticky top-0 z-50 w-full border-b glassmorphism">
@@ -104,7 +61,7 @@ export default function Home() {
                         <Card key={feature.title} className="glassmorphism hover:shadow-primary/20 transition-shadow duration-300">
                             <CardHeader className="items-center text-center">
                                 <div className="p-3 rounded-full mb-4 w-fit bg-primary/10">
-                                    {feature.icon}
+                                    <feature.icon className="w-8 h-8 text-primary" />
                                 </div>
                                 <CardTitle className="font-headline text-2xl">{feature.title}</CardTitle>
                             </CardHeader>
@@ -119,30 +76,34 @@ export default function Home() {
             </div>
         </section>
         
-        <section id="testimonials" className="py-20 bg-card">
+        <section id="testimonials" className="py-20 bg-card overflow-hidden">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                  <div className="text-center mb-12">
                     <h2 className="text-3xl md:text-4xl font-headline font-bold">Loved by Sales Teams Worldwide</h2>
                     <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">Don't just take our word for it. Here's what our customers are saying.</p>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {testimonials.map((testimonial) => (
-                         <Card key={testimonial.name} className="flex flex-col glassmorphism">
-                            <CardContent className="pt-6">
-                                <p className="italic">"{testimonial.testimonial}"</p>
-                            </CardContent>
-                             <CardFooter className="mt-auto">
-                                <Avatar>
-                                    <AvatarImage src={testimonial.avatar} alt={testimonial.name} />
-                                    <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
-                                </Avatar>
-                                <div className="ml-4">
-                                    <p className="font-semibold">{testimonial.name}</p>
-                                    <p className="text-sm text-muted-foreground">{testimonial.role}</p>
-                                </div>
-                            </CardFooter>
-                        </Card>
-                    ))}
+                <div className="relative">
+                    <Marquee pauseOnHover className="[--duration:60s]">
+                        {testimonials.map((testimonial, index) => (
+                             <Card key={`${testimonial.name}-${index}`} className="flex flex-col w-[350px] mx-4 h-full glassmorphism">
+                                <CardContent className="pt-6">
+                                    <p className="italic">"{testimonial.testimonial}"</p>
+                                </CardContent>
+                                 <CardFooter className="mt-auto">
+                                    <Avatar>
+                                        <AvatarImage src={testimonial.avatar} alt={testimonial.name} />
+                                        <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
+                                    </Avatar>
+                                    <div className="ml-4">
+                                        <p className="font-semibold">{testimonial.name}</p>
+                                        <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                                    </div>
+                                </CardFooter>
+                            </Card>
+                        ))}
+                    </Marquee>
+                    <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-card to-transparent"></div>
+                    <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-card to-transparent"></div>
                 </div>
             </div>
         </section>
@@ -154,62 +115,40 @@ export default function Home() {
                     <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">Choose the plan that's right for your team.</p>
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                    <Card className="glassmorphism">
-                        <CardHeader>
-                            <CardTitle className="font-headline">Free</CardTitle>
-                            <CardDescription>For individuals and small teams getting started.</CardDescription>
-                            <div className="text-4xl font-bold pt-4">$0<span className="text-lg font-normal text-muted-foreground">/month</span></div>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                            <ul className="space-y-2">
-                                <li className="flex items-center"><CheckCircle2 className="w-5 h-5 text-accent mr-2" /> 50 leads/month</li>
-                                <li className="flex items-center"><CheckCircle2 className="w-5 h-5 text-accent mr-2" /> Basic enrichment</li>
-                                <li className="flex items-center"><CheckCircle2 className="w-5 h-5 text-accent mr-2" /> Community support</li>
-                            </ul>
-                        </CardContent>
-                        <CardFooter>
-                             <Button variant="outline" className="w-full" asChild><Link href="/signup">Get Started</Link></Button>
-                        </CardFooter>
-                    </Card>
-                     <Card className="glassmorphism border-primary shadow-primary/20">
-                        <CardHeader>
-                            <div className="flex justify-between items-center">
-                                <CardTitle className="font-headline text-primary">Pro</CardTitle>
-                                <div className="px-3 py-1 text-sm text-primary-foreground bg-primary rounded-full">Most Popular</div>
-                            </div>
-                            <CardDescription>For growing teams that need more power and scale.</CardDescription>
-                            <div className="text-4xl font-bold pt-4">$99<span className="text-lg font-normal text-muted-foreground">/month</span></div>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                            <ul className="space-y-2">
-                                <li className="flex items-center"><CheckCircle2 className="w-5 h-5 text-primary mr-2" /> 2,000 leads/month</li>
-                                <li className="flex items-center"><CheckCircle2 className="w-5 h-5 text-primary mr-2" /> Advanced AI enrichment</li>
-                                <li className="flex items-center"><CheckCircle2 className="w-5 h-5 text-primary mr-2" /> API Access & Webhooks</li>
-                                <li className="flex items-center"><CheckCircle2 className="w-5 h-5 text-primary mr-2" /> Priority email support</li>
-                            </ul>
-                        </CardContent>
-                        <CardFooter>
-                             <Button className="w-full" asChild><Link href="/signup">Choose Pro</Link></Button>
-                        </CardFooter>
-                    </Card>
-                     <Card className="glassmorphism">
-                        <CardHeader>
-                            <CardTitle className="font-headline">Enterprise</CardTitle>
-                            <CardDescription>For large organizations with custom requirements.</CardDescription>
-                            <div className="text-4xl font-bold pt-4">Custom</div>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                           <ul className="space-y-2">
-                                <li className="flex items-center"><CheckCircle2 className="w-5 h-5 text-accent mr-2" /> Unlimited leads</li>
-                                <li className="flex items-center"><CheckCircle2 className="w-5 h-5 text-accent mr-2" /> Custom AI models</li>
-                                <li className="flex items-center"><CheckCircle2 className="w-5 h-5 text-accent mr-2" /> Dedicated account manager</li>
-                                 <li className="flex items-center"><CheckCircle2 className="w-5 h-5 text-accent mr-2" /> 24/7 premium support</li>
-                            </ul>
-                        </CardContent>
-                        <CardFooter>
-                             <Button variant="outline" className="w-full" asChild><Link href="/contact-sales">Contact Sales</Link></Button>
-                        </CardFooter>
-                    </Card>
+                    {pricingPlans.map(plan => (
+                        <Card key={plan.title} className={`glassmorphism ${plan.isPopular ? 'border-primary shadow-primary/20' : ''}`}>
+                            <CardHeader>
+                                {plan.isPopular ? (
+                                     <div className="flex justify-between items-center">
+                                        <CardTitle className="font-headline text-primary">{plan.title}</CardTitle>
+                                        <div className="px-3 py-1 text-sm text-primary-foreground bg-primary rounded-full">Most Popular</div>
+                                    </div>
+                                ) : (
+                                    <CardTitle className="font-headline">{plan.title}</CardTitle>
+                                )}
+                                <CardDescription>{plan.description}</CardDescription>
+                                <div className="text-4xl font-bold pt-4">
+                                    {plan.price}
+                                    {plan.price !== 'Custom' && <span className="text-lg font-normal text-muted-foreground">/month</span>}
+                                </div>
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                                <ul className="space-y-2">
+                                    {plan.features.map((feature, index) => (
+                                         <li key={index} className="flex items-center">
+                                            <CheckCircle2 className={`w-5 h-5 mr-2 ${plan.isPopular ? 'text-primary' : 'text-accent'}`} />
+                                            {feature}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </CardContent>
+                            <CardFooter>
+                                <Button variant={plan.isPopular ? 'default' : 'outline'} className="w-full" asChild>
+                                    <Link href={plan.cta.href}>{plan.cta.text}</Link>
+                                </Button>
+                            </CardFooter>
+                        </Card>
+                    ))}
                 </div>
             </div>
         </section>

@@ -1,0 +1,133 @@
+import { Search, Zap, Bot } from 'lucide-react';
+
+export const features = [
+    {
+        icon: Search,
+        title: 'Automated Scraping',
+        description: 'Effortlessly gather company and contact data from millions of public sources without lifting a finger.',
+    },
+    {
+        icon: Zap,
+        title: 'AI Enrichment & Validation',
+        description: 'Our generative AI enriches and validates every lead, ensuring you have the most accurate and up-to-date information.',
+    },
+    {
+        icon: Bot,
+        title: 'Intelligent Scoring',
+        description: 'Leads are automatically scored for quality, allowing you to prioritize the most promising opportunities.',
+    }
+];
+
+export const testimonials = [
+  {
+    name: 'Sarah J.',
+    role: 'CEO of TechCorp',
+    avatar: 'https://picsum.photos/seed/avatar1/100/100',
+    testimonial: 'LeadPilot AI has transformed our sales process. The quality of leads is unparalleled, and the AI scoring is a game-changer.'
+  },
+  {
+    name: 'Mike R.',
+    role: 'Head of Sales at Innovate Ltd.',
+    avatar: 'https://picsum.photos/seed/avatar2/100/100',
+    testimonial: 'We\'ve seen a 300% increase in qualified leads since adopting LeadPilot. It\'s an essential tool for any modern sales team.'
+  },
+   {
+    name: 'Emily K.',
+    role: 'Founder of MarketRise',
+    avatar: 'https://picsum.photos/seed/avatar3/100/100',
+    testimonial: 'The automated scraping and enrichment saves us hundreds of hours per month. It\'s like having a team of data scientists on demand.'
+  },
+  {
+    name: 'David L.',
+    role: 'VP of Growth, ScaleUp',
+    avatar: 'https://picsum.photos/seed/avatar4/100/100',
+    testimonial: 'The integration was seamless, and we started seeing high-quality leads within the first day. Highly recommended.'
+  },
+  {
+    name: 'Jessica M.',
+    role: 'Sales Director, Global Solutions',
+    avatar: 'https://picsum.photos/seed/avatar5/100/100',
+    testimonial: 'LeadPilot\'s ability to identify key decision-makers has been invaluable. Our outreach is more effective than ever.'
+  },
+  {
+    name: 'Alex C.',
+    role: 'Marketing Manager, Creative Co.',
+    avatar: 'https://picsum.photos/seed/avatar6/100/100',
+    testimonial: 'A fantastic tool for aligning sales and marketing. We now have a consistent, high-quality stream of leads to nurture.'
+  },
+  {
+    name: 'Maria G.',
+    role: 'Founder, Connect AI',
+    avatar: 'https://picsum.photos/seed/avatar7/100/100',
+    testimonial: 'As a startup founder, every second counts. LeadPilot AI is our secret weapon for efficient and effective lead generation.'
+  },
+  {
+    name: 'Tom H.',
+    role: 'Enterprise Account Executive',
+    avatar: 'https://picsum.photos/seed/avatar8/100/100',
+    testimonial: 'I can focus on building relationships and closing deals instead of spending hours on prospecting. It has easily doubled my productivity.'
+  },
+  {
+    name: 'Linda B.',
+    role: 'Business Development, Synergy Inc.',
+    avatar: 'https://picsum.photos/seed/avatar9/100/100',
+    testimonial: 'The data accuracy is top-notch. We\'ve significantly reduced our bounce rates on email campaigns.'
+  },
+  {
+    name: 'Kevin S.',
+    role: 'CEO, QuantumLeap',
+    avatar: 'https://picsum.photos/seed/avatar10/100/100',
+    testimonial: 'This is the future of B2B sales. The AI not only finds leads but gives us the context we need to start meaningful conversations.'
+  },
+];
+
+
+export const pricingPlans = [
+    {
+        title: 'Free',
+        description: 'For individuals and small teams getting started.',
+        price: '$0',
+        features: [
+            '50 leads/month',
+            'Basic enrichment',
+            'Community support'
+        ],
+        isPopular: false,
+        cta: {
+            text: 'Get Started',
+            href: '/signup'
+        }
+    },
+    {
+        title: 'Pro',
+        description: 'For growing teams that need more power and scale.',
+        price: '$99',
+        features: [
+            '2,000 leads/month',
+            'Advanced AI enrichment',
+            'API Access & Webhooks',
+            'Priority email support'
+        ],
+        isPopular: true,
+        cta: {
+            text: 'Choose Pro',
+            href: '/signup'
+        }
+    },
+    {
+        title: 'Enterprise',
+        description: 'For large organizations with custom requirements.',
+        price: 'Custom',
+        features: [
+            'Unlimited leads',
+            'Custom AI models',
+            'Dedicated account manager',
+            '24/7 premium support'
+        ],
+        isPopular: false,
+        cta: {
+            text: 'Contact Sales',
+            href: '/contact-sales'
+        }
+    }
+]

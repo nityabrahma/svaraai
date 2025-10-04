@@ -72,4 +72,13 @@
     .glassmorphism {
         @apply bg-card/60 backdrop-blur-xl border shadow-lg;
     }
+    
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    .animate-marquee {
+        animation: marquee var(--duration, 30s) linear infinite;
+    }
 }
