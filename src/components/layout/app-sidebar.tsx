@@ -22,7 +22,8 @@ const navItems = [
 
 export default function AppSidebar() {
   const pathname = usePathname();
-  const { state } = useSidebar();
+  const { open, isMobile } = useSidebar();
+  const state = open && !isMobile ? 'expanded' : 'collapsed';
 
   return (
     <div className="flex h-full flex-col glassmorphism">
@@ -51,7 +52,7 @@ export default function AppSidebar() {
                         <span className={cn('overflow-hidden transition-all', { 'w-0': state === 'collapsed', 'w-auto': state === 'expanded' })}>{item.label}</span>
                     </Link>
                     </TooltipTrigger>
-                    {state === 'collapsed' && (
+                    {(state === 'collapsed' || isMobile) && (
                         <TooltipContent side="right">
                         <p>{item.label}</p>
                         </TooltipContent>
@@ -62,7 +63,7 @@ export default function AppSidebar() {
             </TooltipProvider>
         </nav>
         <div className="mt-auto flex flex-col items-center gap-2 p-4">
-            {state === 'expanded' && <ThemeSwitcher />}
+            {(state === 'expanded' || isMobile) && <ThemeSwitcher />}
         </div>
     </div>
   );
