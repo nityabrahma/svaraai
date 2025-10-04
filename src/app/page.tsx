@@ -10,7 +10,7 @@ import Marquee from '@/components/ui/marquee';
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen bg-background">
+    <div className="flex flex-col min-h-screen">
       <header className="sticky top-0 z-50 w-full border-b glassmorphism">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center h-16">
@@ -50,7 +50,7 @@ export default function Home() {
           </Button>
         </section>
 
-        <section id="features" className="py-20 bg-background">
+        <section id="features" className="py-20">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-12">
                     <h2 className="text-3xl md:text-4xl font-headline font-bold">Why Choose LeadPilot AI?</h2>
@@ -76,7 +76,7 @@ export default function Home() {
             </div>
         </section>
         
-        <section id="testimonials" className="py-20 bg-card overflow-hidden">
+        <section id="testimonials" className="py-20 overflow-hidden">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                  <div className="text-center mb-12">
                     <h2 className="text-3xl md:text-4xl font-headline font-bold">Loved by Sales Teams Worldwide</h2>
@@ -102,13 +102,13 @@ export default function Home() {
                             </Card>
                         ))}
                     </Marquee>
-                    <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-card to-transparent"></div>
-                    <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-card to-transparent"></div>
+                    <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-background to-transparent"></div>
+                    <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-background to-transparent"></div>
                 </div>
             </div>
         </section>
         
-        <section id="pricing" className="py-20 bg-background">
+        <section id="pricing" className="py-20">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                  <div className="text-center mb-12">
                     <h2 className="text-3xl md:text-4xl font-headline font-bold">Simple, Transparent Pricing</h2>
@@ -153,8 +153,8 @@ export default function Home() {
             </div>
         </section>
 
-        <section className="py-20 bg-card">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <section className="py-20">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center glassmorphism rounded-lg py-12">
                  <h2 className="text-3xl md:text-4xl font-headline font-bold">Ready to Supercharge Your Sales?</h2>
                  <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">Join hundreds of companies finding their next customer with LeadPilot AI.</p>
                  <Button size="lg" asChild className="mt-8">
