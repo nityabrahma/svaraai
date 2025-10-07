@@ -108,8 +108,8 @@ export default function Home() {
         <section id="features" className="py-20">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl font-headline font-bold">Why Choose LeadPilot AI?</h2>
-                    <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">Our platform is designed to streamline your entire lead generation workflow.</p>
+                    <h2 className="text-3xl md:text-4xl font-headline font-bold">Why Choose Svara AI?</h2>
+                    <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">Transform your sales process with intelligent automation and comprehensive lead management.</p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {features.map((feature) => (
@@ -265,5 +265,7 @@ export default function Home() {
     </div>
   );
 }
+
+    
 
     

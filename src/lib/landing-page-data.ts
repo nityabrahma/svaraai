@@ -23,13 +23,13 @@ export const testimonials = [
     name: 'Sarah J.',
     role: 'CEO of TechCorp',
     avatar: 'https://picsum.photos/seed/avatar1/100/100',
-    testimonial: 'LeadPilot AI has transformed our sales process. The quality of leads is unparalleled, and the AI scoring is a game-changer.'
+    testimonial: 'Svara AI has transformed our sales process. The quality of leads is unparalleled, and the AI scoring is a game-changer.'
   },
   {
     name: 'Mike R.',
     role: 'Head of Sales at Innovate Ltd.',
     avatar: 'https://picsum.photos/seed/avatar2/100/100',
-    testimonial: 'We\'ve seen a 300% increase in qualified leads since adopting LeadPilot. It\'s an essential tool for any modern sales team.'
+    testimonial: 'We\'ve seen a 300% increase in qualified leads since adopting Svara. It\'s an essential tool for any modern sales team.'
   },
    {
     name: 'Emily K.',
@@ -47,7 +47,7 @@ export const testimonials = [
     name: 'Jessica M.',
     role: 'Sales Director, Global Solutions',
     avatar: 'https://picsum.photos/seed/avatar5/100/100',
-    testimonial: 'LeadPilot\'s ability to identify key decision-makers has been invaluable. Our outreach is more effective than ever.'
+    testimonial: 'Svara\'s ability to identify key decision-makers has been invaluable. Our outreach is more effective than ever.'
   },
   {
     name: 'Alex C.',
@@ -59,7 +59,7 @@ export const testimonials = [
     name: 'Maria G.',
     role: 'Founder, Connect AI',
     avatar: 'https://picsum.photos/seed/avatar7/100/100',
-    testimonial: 'As a startup founder, every second counts. LeadPilot AI is our secret weapon for efficient and effective lead generation.'
+    testimonial: 'As a startup founder, every second counts. Svara AI is our secret weapon for efficient and effective lead generation.'
   },
   {
     name: 'Tom H.',
@@ -131,3 +131,5 @@ export const pricingPlans = [
         }
     }
 ]
+
+    
