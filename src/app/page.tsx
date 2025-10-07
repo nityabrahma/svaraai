@@ -287,6 +287,15 @@ export default function Home() {
                 </div>
             </div>
         </section>
+
+        <section id="stand-out" className="py-20">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="text-center mb-12 max-w-3xl mx-auto">
+                    <h2 className="text-3xl md:text-4xl font-headline font-bold">Why Svara Stands Out</h2>
+                    <p className="text-lg text-muted-foreground mt-2">Most sales tools are either too complex (requiring heavy training) or too basic (no real AI automation). Svara bridges this gap with enterprise-grade features in a simple 4-step process.</p>
+                </div>
+            </div>
+        </section>
         
         <section id="testimonials" className="py-20 overflow-hidden">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -422,5 +431,7 @@ export default function Home() {
     </div>
   );
 }
+
+    
 
     
