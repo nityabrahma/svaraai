@@ -353,11 +353,11 @@ export default function Home() {
                             ))}
                         </CardContent>
                     </Card>
-                     <Card className="glassmorphism border">
+                     <Card className="glassmorphism border flex flex-col">
                         <CardHeader>
-                            <CardTitle className="font-headline text-2xl">ROI & Results</CardTitle>
+                            <CardTitle className="font-headline text-2xl">ROI &amp; Results</CardTitle>
                         </CardHeader>
-                        <CardContent className="grid grid-cols-2 gap-4">
+                        <CardContent className="flex flex-col justify-between flex-grow gap-4">
                              {roiItems.map((item, index) => (
                                 <div key={item.metric} className="text-center bg-muted/50 p-4 rounded-lg">
                                     <p className="text-3xl lg:text-4xl font-bold text-primary">{item.metric}</p>
