@@ -235,7 +235,7 @@ export default function Home() {
                    {fourSteps.map((step, index) => (
                         <div key={step.title} className={`grid lg:grid-cols-2 gap-12 items-center ${index % 2 !== 0 ? 'lg:grid-flow-row-dense' : ''}`}>
                             <div className={`space-y-6 ${index % 2 !== 0 ? 'lg:col-start-2' : ''}`}>
-                                <Badge variant="outline" className="text-primary border-primary py-1 px-3">{step.step}</Badge>
+                                <Badge variant="outline" className="text-primary border-primary py-1 px-3">{`${step.step}: ${step.title}`}</Badge>
                                 <h3 className="text-2xl md:text-3xl font-headline font-bold">{step.heading}</h3>
                                 <p className="text-muted-foreground">{step.description}</p>
                                 <ul className="space-y-3">
@@ -422,3 +422,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
