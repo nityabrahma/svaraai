@@ -10,6 +10,7 @@ import Marquee from '@/components/ui/marquee';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
+import { Input } from '@/components/ui/input';
 
 
 export default function Home() {
@@ -465,16 +466,19 @@ export default function Home() {
 
         <section className="py-20">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center glassmorphism rounded-lg py-12 max-w-4xl border">
-                 <h2 className="text-3xl md:text-4xl font-headline font-bold">Start Your Free Trial Today</h2>
-                 <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">Join thousands of successful sales professionals and agencies transforming their outreach with Svara's AI automation platform.</p>
-                 <Button size="lg" asChild className="mt-8">
-                    <Link href="/dashboard">
-                    Sign Up for Free <ArrowRight className="ml-2" />
-                    </Link>
-                </Button>
+                <h2 className="text-3xl md:text-4xl font-headline font-bold">Start Your Free Trial Today</h2>
+                <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">Join thousands of successful sales professionals and agencies transforming their outreach with Svara's AI automation platform.</p>
+                <form className="mt-8 max-w-lg mx-auto">
+                    <div className="flex flex-col sm:flex-row gap-4">
+                        <Input type="text" placeholder="Your Name" className="text-center sm:text-left"/>
+                        <Input type="email" placeholder="your@email.com" className="text-center sm:text-left"/>
+                        <Button size="lg" type="submit" className="w-full sm:w-auto">
+                           Start Free Trial
+                        </Button>
+                    </div>
+                </form>
             </div>
         </section>
-
       </main>
 
       <footer className="border-t">
