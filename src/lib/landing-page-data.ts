@@ -1,20 +1,35 @@
-import { Search, Zap, Bot } from 'lucide-react';
+import { Building, Users, Briefcase, Rocket, UserCheck, Server } from 'lucide-react';
 
 export const features = [
     {
-        icon: Search,
-        title: 'Automated Scraping',
-        description: 'Effortlessly gather company and contact data from millions of public sources without lifting a finger.',
+        icon: Building,
+        title: 'Digital Marketing Agencies',
+        description: 'Offer AI-powered outreach services to clients and generate recurring revenue streams.',
     },
     {
-        icon: Zap,
-        title: 'AI Enrichment & Validation',
-        description: 'Our generative AI enriches and validates every lead, ensuring you have the most accurate and up-to-date information.',
+        icon: Users,
+        title: 'Sales Teams',
+        description: 'Scale your outreach with intelligent automation and personalized messaging.',
     },
     {
-        icon: Bot,
-        title: 'Intelligent Scoring',
-        description: 'Leads are automatically scored for quality, allowing you to prioritize the most promising opportunities.',
+        icon: Briefcase,
+        title: 'Growing Businesses',
+        description: 'Comprehensive lead generation solutions that scale with your business needs.',
+    },
+    {
+        icon: UserCheck,
+        title: 'Consultants & Coaches',
+        description: 'Monetize lead generation as a premium service offering to your clients.'
+    },
+    {
+        icon: Rocket,
+        title: 'Entrepreneurs',
+        description: 'Launch and scale your business with proven, customizable automation tools.'
+    },
+    {
+        icon: Server,
+        title: 'Enterprise Teams',
+        description: 'Complete, brandable platform with multi-tenant architecture and user management.'
     }
 ];
 
@@ -131,5 +146,3 @@ export const pricingPlans = [
         }
     }
 ]
-
-    
