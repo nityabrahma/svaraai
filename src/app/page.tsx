@@ -1,7 +1,7 @@
 
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Bot, Check, CheckCircle2, Menu, Cpu, Rocket, Target, Users, BookUser, FileText, Send, Sparkles, DatabaseZap, Building2, Combine, Palette, Star } from 'lucide-react';
+import { ArrowRight, Bot, Check, CheckCircle2, Menu, Cpu, Rocket, Target, Users, BookUser, FileText, Send, Sparkles, DatabaseZap, Building2, Combine, Palette, Star, ShieldCheck, MessageCircle } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ThemeSwitcher } from '@/components/theme-switcher';
@@ -439,23 +439,27 @@ export default function Home() {
                             </CardFooter>
                         </Card>
                     ))}
-                    <Card className="lg:col-span-1 md:col-span-2 text-center flex flex-col h-full glassmorphism border">
-                         <CardHeader>
-                             <CardTitle className="font-headline text-2xl">All Plans Include</CardTitle>
-                         </CardHeader>
-                         <CardContent className="space-y-6 flex-grow">
-                             {allPlansInclude.map((item, index) => (
-                                 <div key={index}>
-                                     <h4 className="font-semibold text-lg flex items-center justify-center gap-2"><item.icon className="w-5 h-5 text-primary" />{item.title}</h4>
-                                     <p className="text-muted-foreground text-sm">{item.description}</p>
-                                 </div>
-                             ))}
-                         </CardContent>
-                         <CardFooter className="flex-col gap-2">
-                             <p className="text-sm text-muted-foreground">Start with any plan and upgrade anytime. Cancel or downgrade without penalties.</p>
-                         </CardFooter>
-                    </Card>
+                    
                 </div>
+                <Card className="mt-8 lg:col-span-1 md:col-span-2 w-full glassmorphism border">
+                     <CardHeader className="text-center">
+                         <CardTitle className="font-headline text-2xl">All Plans Include</CardTitle>
+                     </CardHeader>
+                     <CardContent>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                            {allPlansInclude.map((item, index) => (
+                                <div key={index} className="flex flex-col items-center text-center">
+                                    <item.icon className="w-8 h-8 text-primary mb-2" />
+                                    <h4 className="font-semibold text-lg">{item.title}</h4>
+                                    <p className="text-muted-foreground text-sm">{item.description}</p>
+                                </div>
+                            ))}
+                         </div>
+                     </CardContent>
+                     <CardFooter className="flex-col gap-2 pt-6">
+                         <p className="text-sm text-muted-foreground">Start with any plan and upgrade anytime. Cancel or downgrade without penalties.</p>
+                     </CardFooter>
+                </Card>
             </div>
         </section>
 
