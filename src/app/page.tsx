@@ -409,7 +409,7 @@ export default function Home() {
                     <h2 className="text-3xl md:text-4xl font-headline font-bold">Choose Your Plan</h2>
                     <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">Start with our free trial and scale as you grow. All plans include our complete AI automation platform.</p>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 items-start">
                     {pricingPlans.map(plan => (
                         <Card key={plan.title} className={cn('flex flex-col h-full glassmorphism border', {'border-primary ring-2 ring-primary shadow-lg': plan.isPopular})}>
                             <CardHeader className="text-center">
@@ -507,7 +507,7 @@ export default function Home() {
                     <h4 className="font-semibold">Legal</h4>
                     <ul className="space-y-2 text-muted-foreground">
                         <li><Link href="#" className="hover:text-primary">Privacy Policy</Link></li>
-                        <li><Link href="#" className="hover:text-primary">Terms of Service</Link></li>
+                        <li><Link href="#" className="hovertext-primary">Terms of Service</Link></li>
                     </ul>
                 </div>
             </div>
@@ -520,3 +520,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
