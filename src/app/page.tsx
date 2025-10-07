@@ -1,7 +1,7 @@
 
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Bot, CheckCircle2, Menu } from 'lucide-react';
+import { ArrowRight, Bot, CheckCircle2, Menu, Cpu, Rocket, Target, Users } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ThemeSwitcher } from '@/components/theme-switcher';
@@ -12,6 +12,29 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 
 export default function Home() {
   const marqueeItems = ["DIGITAL AGENCIES", "SALES AUTOMATION", "ENTERPRISE RESELLERS", "SAAS ENTREPRENEURS"];
+
+  const fourSteps = [
+    {
+        icon: Users,
+        title: "1. Define Your Target",
+        description: "Use our 70M+ record database to create precise lead lists based on industry, size, location, and more.",
+    },
+    {
+        icon: Cpu,
+        title: "2. Generate AI Sequences",
+        description: "Our AI analyzes your targets and crafts hyper-personalized email and social media outreach campaigns.",
+    },
+    {
+        icon: Rocket,
+        title: "3. Launch & Automate",
+        description: "Deploy your campaigns with one click and let Svara handle the follow-ups and initial engagement.",
+    },
+    {
+        icon: Target,
+        title: "4. Receive Qualified Leads",
+        description: "Get a steady pipeline of warm, qualified leads delivered directly to your dashboard or CRM.",
+    },
+  ]
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -130,6 +153,26 @@ export default function Home() {
                 </div>
             </div>
         </section>
+
+        <section id="system" className="py-20 bg-card/50">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl md:text-4xl font-headline font-bold">The 4-Step Svara System</h2>
+                    <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">Enterprise-grade AI automation in a simple process that anyone can master. From product setup to campaign launch - everything is automated.</p>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    {fourSteps.map((step) => (
+                        <div key={step.title} className="flex flex-col items-center text-center">
+                            <div className="p-4 rounded-full mb-4 w-fit bg-primary/10 ring-8 ring-primary/5">
+                                <step.icon className="w-10 h-10 text-primary" />
+                            </div>
+                            <h3 className="font-headline text-lg font-semibold">{step.title}</h3>
+                            <p className="text-muted-foreground mt-1 text-sm">{step.description}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </section>
         
         <section id="testimonials" className="py-20 overflow-hidden">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -198,7 +241,7 @@ export default function Home() {
                                 </ul>
                             </CardContent>
                             <CardFooter>
-                                <Button variant={plan.isPopular ? 'default' : 'outline'} className="w-full border" asChild>
+                                <Button variant={plan.isPopular ? 'default' : 'outline'} className="w-full" asChild>
                                     <Link href={plan.cta.href}>{plan.cta.text}</Link>
                                 </Button>
                             </CardFooter>
@@ -212,7 +255,7 @@ export default function Home() {
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center glassmorphism rounded-lg py-12 max-w-4xl">
                  <h2 className="text-3xl md:text-4xl font-headline font-bold">Ready to Supercharge Your Sales?</h2>
                  <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">Join hundreds of companies finding their next customer with Svara.</p>
-                 <Button size="lg" asChild className="mt-8 border">
+                 <Button size="lg" asChild className="mt-8">
                     <Link href="/dashboard">
                     Sign Up for Free <ArrowRight className="ml-2" />
                     </Link>
