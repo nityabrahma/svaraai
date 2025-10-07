@@ -1,11 +1,8 @@
 
 'use client';
 
-import { useUser } from '@/hooks/use-user';
 import Header from '@/components/layout/header';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { Skeleton } from '@/components/ui/skeleton';
+import { useState, useEffect } from 'react';
 import { SidebarProvider, Sidebar, SidebarInset } from '@/components/ui/sidebar';
 import AppSidebar from '@/components/layout/app-sidebar';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -15,37 +12,15 @@ export default function AppLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { user, loading } = useUser();
-  const router = useRouter();
   const isMobile = useIsMobile();
-  // Default to open on desktop, closed on mobile after mount
-  const [sidebarOpen, setSidebarOpen] = useState(false); 
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
+    // Default to open on desktop, closed on mobile
     if (typeof window !== 'undefined') {
-      setSidebarOpen(!isMobile);
+        setSidebarOpen(!isMobile);
     }
   }, [isMobile]);
-
-  useEffect(() => {
-    if (!loading && !user) {
-      router.push('/login');
-    }
-  }, [user, loading, router]);
-
-  if (loading || !user) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-          <div className="flex flex-col items-center gap-4">
-            <Skeleton className="h-12 w-12 rounded-full" />
-            <div className="space-y-2">
-                <Skeleton className="h-4 w-[250px]" />
-                <Skeleton className="h-4 w-[200px]" />
-            </div>
-          </div>
-      </div>
-    );
-  }
 
   return (
     <SidebarProvider open={sidebarOpen} onOpenChange={setSidebarOpen}>

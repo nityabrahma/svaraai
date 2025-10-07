@@ -16,15 +16,21 @@ export default function Home() {
             <div className="flex justify-between items-center h-16">
             <Link href="/" className="flex items-center gap-2">
                 <Bot className="w-8 h-8 text-primary" />
-                <span className="text-2xl font-bold font-headline">LeadPilot AI</span>
+                <span className="text-2xl font-bold font-headline">Svara</span>
             </Link>
+            <div className="hidden md:flex items-center gap-6">
+                <Link href="#features" className="text-sm font-medium hover:text-primary transition-colors">Features</Link>
+                <Link href="#pricing" className="text-sm font-medium hover:text-primary transition-colors">Pricing</Link>
+                <Link href="#" className="text-sm font-medium hover:text-primary transition-colors">Pipeline</Link>
+                <Link href="#testimonials" className="text-sm font-medium hover:text-primary transition-colors">Customers</Link>
+            </div>
             <div className="flex items-center gap-4">
                 <Button variant="ghost" asChild>
-                    <Link href="/login">Log In</Link>
+                    <Link href="/dashboard">Log In</Link>
                 </Button>
                 <Button asChild>
-                    <Link href="/signup">
-                    Get Started <ArrowRight className="ml-2" />
+                    <Link href="/dashboard">
+                    Start Free Trial
                     </Link>
                 </Button>
             </div>
@@ -35,17 +41,17 @@ export default function Home() {
       <main className="flex-grow">
         <section className="container mx-auto px-4 sm:px-6 lg:px-8 text-center py-20 md:py-32">
           <div className="mx-auto bg-primary/10 text-primary px-4 py-1.5 rounded-full w-fit mb-4">
-            <span className="font-semibold">The Future of Lead Generation is Here</span>
+            <span className="font-semibold">🚀 Turnkey AI Sales Automation Platform</span>
           </div>
           <h1 className="text-4xl md:text-6xl font-headline font-bold tracking-tighter mb-6">
-            Generate High-Quality Leads with AI
+            Launch Your Own AI Sales SaaS in 4 Simple Steps
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-10">
-            LeadPilot AI scrapes, enriches, and validates company and contact data, delivering actionable leads so you can focus on closing deals.
+            From 70M+ business records to AI-generated sequences to white-label deployment - Svara is the complete sales automation platform that transforms your outreach with intelligent AI automation.
           </p>
           <Button size="lg" asChild>
-            <Link href="/signup">
-              Get Started for Free <ArrowRight className="ml-2" />
+            <Link href="/dashboard">
+              Start Free Trial <ArrowRight className="ml-2" />
             </Link>
           </Button>
         </section>
@@ -58,7 +64,7 @@ export default function Home() {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {features.map((feature) => (
-                        <Card key={feature.title} className="glassmorphism hover:shadow-primary/20 transition-shadow duration-300">
+                        <Card key={feature.title} className="glassmorphism hover:shadow-primary/20 transition-shadow duration-300 border">
                             <CardHeader className="items-center text-center">
                                 <div className="p-3 rounded-full mb-4 w-fit bg-primary/10">
                                     <feature.icon className="w-8 h-8 text-primary" />
@@ -85,7 +91,7 @@ export default function Home() {
                 <div className="relative">
                     <Marquee pauseOnHover className="[--duration:60s]">
                         {testimonials.map((testimonial, index) => (
-                             <Card key={`${testimonial.name}-${index}`} className="flex flex-col w-[350px] mx-4 h-full glassmorphism">
+                             <Card key={`${testimonial.name}-${index}`} className="flex flex-col w-[350px] mx-4 h-full glassmorphism border">
                                 <CardContent className="pt-6">
                                     <p className="italic">"{testimonial.testimonial}"</p>
                                 </CardContent>
@@ -116,7 +122,7 @@ export default function Home() {
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
                     {pricingPlans.map(plan => (
-                        <Card key={plan.title} className={`glassmorphism ${plan.isPopular ? 'border-primary shadow-primary/20' : ''}`}>
+                        <Card key={plan.title} className={`glassmorphism border ${plan.isPopular ? 'border-primary shadow-primary/20' : ''}`}>
                             <CardHeader>
                                 {plan.isPopular ? (
                                      <div className="flex justify-between items-center">
@@ -143,7 +149,7 @@ export default function Home() {
                                 </ul>
                             </CardContent>
                             <CardFooter>
-                                <Button variant={plan.isPopular ? 'default' : 'outline'} className="w-full" asChild>
+                                <Button variant={plan.isPopular ? 'default' : 'outline'} className="w-full border" asChild>
                                     <Link href={plan.cta.href}>{plan.cta.text}</Link>
                                 </Button>
                             </CardFooter>
@@ -156,9 +162,9 @@ export default function Home() {
         <section className="py-20">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center glassmorphism rounded-lg py-12 max-w-4xl">
                  <h2 className="text-3xl md:text-4xl font-headline font-bold">Ready to Supercharge Your Sales?</h2>
-                 <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">Join hundreds of companies finding their next customer with LeadPilot AI.</p>
-                 <Button size="lg" asChild className="mt-8">
-                    <Link href="/signup">
+                 <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">Join hundreds of companies finding their next customer with Svara.</p>
+                 <Button size="lg" asChild className="mt-8 border">
+                    <Link href="/dashboard">
                     Sign Up for Free <ArrowRight className="ml-2" />
                     </Link>
                 </Button>
@@ -173,7 +179,7 @@ export default function Home() {
                 <div className="space-y-4">
                     <Link href="/" className="flex items-center gap-2">
                         <Bot className="w-8 h-8 text-primary" />
-                        <span className="text-xl font-bold font-headline">LeadPilot AI</span>
+                        <span className="text-xl font-bold font-headline">Svara</span>
                     </Link>
                     <p className="text-muted-foreground text-sm max-w-xs">AI-powered lead generation to fuel your growth.</p>
                 </div>
@@ -202,7 +208,7 @@ export default function Home() {
                 </div>
             </div>
              <div className="mt-8 border-t pt-8 flex flex-col sm:flex-row justify-between items-center">
-                 <p className="text-sm text-muted-foreground">&copy; {new Date().getFullYear()} LeadPilot AI. All rights reserved.</p>
+                 <p className="text-sm text-muted-foreground">&copy; {new Date().getFullYear()} Svara. All rights reserved.</p>
                  <ThemeSwitcher />
              </div>
         </div>

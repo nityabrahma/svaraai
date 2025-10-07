@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { createUser, getUser, LOCAL_STORAGE_USER_KEY } from '@/lib/local-storage-api';
 
 // This is a mock auth hook for client-side prototyping.
-// Do not use this in a production environment.
+// It does not provide real security.
 
 export function useAuth() {
   const [user, setUser] = useState(null);
@@ -16,68 +16,44 @@ export function useAuth() {
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     } else {
-      setUser(null);
+      // For the prototype, create a default user if none exists
+      const defaultUser = {
+        uid: 'default-user',
+        orgId: 'default-org',
+        email: 'user@example.com',
+        displayName: 'Demo User',
+        role: 'admin',
+        photoURL: `https://i.pravatar.cc/150?u=user@example.com`,
+      };
+      localStorage.setItem(LOCAL_STORAGE_USER_KEY, JSON.stringify(defaultUser));
+      setUser(defaultUser as any);
     }
     setLoading(false);
   }, []);
 
   useEffect(() => {
     updateUserFromStorage();
-    // Listen for storage changes from other tabs
     window.addEventListener('storage', updateUserFromStorage);
     return () => {
       window.removeEventListener('storage', updateUserFromStorage);
     };
   }, [updateUserFromStorage]);
 
-  const signUpWithEmail = async (name, email, password) => {
-    const existingUser = await getUser(email);
-    if (existingUser) {
-      throw new Error('This email is already registered. Please log in instead.');
-    }
-    // Note: Password is not used, just simulating the flow
-    const newUser = await createUser(name, email);
-    localStorage.setItem(LOCAL_STORAGE_USER_KEY, JSON.stringify(newUser));
-    setUser(newUser);
-    return newUser;
-  };
-
-  const signInWithEmail = async (email, password) => {
-    const user = await getUser(email);
-    if (!user) {
-      // In a real app, you wouldn't distinguish between user not found and wrong password
-      throw new Error('Invalid email or password.');
-    }
-    // Note: Password is not checked
-    localStorage.setItem(LOCAL_STORAGE_USER_KEY, JSON.stringify(user));
-    setUser(user);
-    return user;
-  };
-
-  const signInWithGoogle = async () => {
-    // This is a mock. In a real app, this would involve a popup and OAuth flow.
-    const mockGoogleUser = {
-      displayName: 'Google User',
-      email: `google-user-${Date.now()}@example.com`,
-    };
-    let user = await getUser(mockGoogleUser.email);
-    if (!user) {
-      user = await createUser(mockGoogleUser.displayName, mockGoogleUser.email);
-    }
-    localStorage.setItem(LOCAL_STORAGE_USER_KEY, JSON.stringify(user));
-    setUser(user);
-    return user;
-  };
-
   const signOut = async () => {
-    localStorage.removeItem(LOCAL_STORAGE_USER_KEY);
-    setUser(null);
-    router.push('/login');
+    // In this prototype, signing out just navigates to the landing page.
+    // The user will be "logged in" again on the next visit.
+    router.push('/');
   };
 
   const refreshUser = () => {
     updateUserFromStorage();
   };
+
+  // Mock implementations to avoid breaking component code
+  const signUpWithEmail = async (name:any, email:any, password:any) => { console.log("Sign up attempted"); return user; };
+  const signInWithEmail = async (email:any, password:any) => { console.log("Sign in attempted"); return user; };
+  const signInWithGoogle = async () => { console.log("Google sign in attempted"); return user; };
+
 
   return {
     user,
