@@ -1,5 +1,5 @@
 
-import { Building, Users, Briefcase, Rocket, UserCheck, Server } from 'lucide-react';
+import { Building, Users, Briefcase, Rocket, UserCheck, Server, Star, ShieldCheck, Cpu, MessageCircle } from 'lucide-react';
 
 export const features = [
     {
@@ -100,52 +100,78 @@ export const testimonials = [
 
 export const pricingPlans = [
     {
-        title: 'Free',
-        description: 'For individuals and small teams getting started.',
-        price: '$0',
+        title: 'Starter',
+        description: 'Perfect for small teams getting started with targeted outreach.',
+        price: '$97',
+        leads: '1,500 leads/month',
         features: [
-            '50 leads/month',
-            'Basic enrichment',
-            'Community support'
+            'Niche targeting',
+            'Verified emails',
+            'CSV export',
+            'Basic analytics'
         ],
         isPopular: false,
-        cta: {
-            text: 'Get Started',
-            href: '/dashboard'
-        }
+    },
+    {
+        title: 'Growth',
+        description: 'Ideal for growing businesses and agencies scaling outreach.',
+        price: '$297',
+        leads: '6,000 leads/month',
+        features: [
+            'Bulk data processing',
+            'Industry filters',
+            'AI outreach credits',
+            'Priority support'
+        ],
+        isPopular: true,
     },
     {
         title: 'Pro',
-        description: 'For growing teams that need more power and scale.',
-        price: '$99',
+        description: 'Advanced features for high-volume lead generation teams.',
+        price: '$697',
+        leads: '15,000 leads/month',
         features: [
-            '2,000 leads/month',
-            'Advanced AI enrichment',
-            'API Access & Webhooks',
-            'Priority email support'
+            'Advanced filters',
+            'CRM sync',
+            'AI workflows',
+            'LinkedIn access'
         ],
-        isPopular: true,
-        cta: {
-            text: 'Choose Pro',
-            href: '/dashboard'
-        }
+        isPopular: false,
     },
     {
         title: 'Enterprise',
-        description: 'For large organizations with custom requirements.',
+        description: 'Complete solution with custom scraping and dedicated support.',
         price: 'Custom',
+        leads: '30,000+ leads/month',
         features: [
-            'Unlimited leads',
-            'Custom AI models',
-            'Dedicated account manager',
-            '24/7 premium support'
+            'Custom scraping',
+            'Intent data',
+            'API access',
+            'Onboarding'
         ],
         isPopular: false,
-        cta: {
-            text: 'Contact Sales',
-            href: '/contact-sales'
-        }
     }
-]
+];
 
-    
+export const allPlansInclude = [
+    {
+        icon: Star,
+        title: 'Free Trial',
+        description: '14-day trial'
+    },
+    {
+        icon: ShieldCheck,
+        title: 'No Credit Card',
+        description: 'AI Automation'
+    },
+    {
+        icon: Cpu,
+        title: 'Ready to Use',
+        description: 'Complete platform'
+    },
+    {
+        icon: MessageCircle,
+        title: '24/7 Support',
+        description: 'All plans'
+    }
+];

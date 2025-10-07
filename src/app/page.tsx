@@ -1,14 +1,15 @@
 
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Bot, Check, CheckCircle2, Menu, Cpu, Rocket, Target, Users, BookUser, FileText, Send, Sparkles, DatabaseZap, Building2, Combine, Palette } from 'lucide-react';
+import { ArrowRight, Bot, Check, CheckCircle2, Menu, Cpu, Rocket, Target, Users, BookUser, FileText, Send, Sparkles, DatabaseZap, Building2, Combine, Palette, Star } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ThemeSwitcher } from '@/components/theme-switcher';
-import { features, testimonials, pricingPlans } from '@/lib/landing-page-data';
+import { features, testimonials, pricingPlans, allPlansInclude } from '@/lib/landing-page-data';
 import Marquee from '@/components/ui/marquee';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Badge } from '@/components/ui/badge';
+import { cn } from '@/lib/utils';
 
 
 export default function Home() {
@@ -408,41 +409,52 @@ export default function Home() {
                     <h2 className="text-3xl md:text-4xl font-headline font-bold">Choose Your Plan</h2>
                     <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">Start with our free trial and scale as you grow. All plans include our complete AI automation platform.</p>
                 </div>
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
                     {pricingPlans.map(plan => (
-                        <Card key={plan.title} className={`glassmorphism border ${plan.isPopular ? 'border-primary shadow-primary/20' : ''}`}>
-                            <CardHeader>
-                                {plan.isPopular ? (
-                                     <div className="flex justify-between items-center">
-                                        <CardTitle className="font-headline text-primary">{plan.title}</CardTitle>
-                                        <div className="px-3 py-1 text-sm text-primary-foreground bg-primary rounded-full">Most Popular</div>
-                                    </div>
-                                ) : (
-                                    <CardTitle className="font-headline">{plan.title}</CardTitle>
-                                )}
-                                <CardDescription>{plan.description}</CardDescription>
-                                <div className="text-4xl font-bold pt-4">
+                        <Card key={plan.title} className={cn('flex flex-col h-full glassmorphism border', {'border-primary ring-2 ring-primary shadow-lg': plan.isPopular})}>
+                            <CardHeader className="text-center">
+                                {plan.isPopular && <div className="text-sm font-bold text-primary uppercase">Most Popular</div>}
+                                <CardTitle className="font-headline text-2xl">{plan.title}</CardTitle>
+                                <div className="text-4xl font-bold text-primary pt-4">
                                     {plan.price}
                                     {plan.price !== 'Custom' && <span className="text-lg font-normal text-muted-foreground">/month</span>}
                                 </div>
+                                <Badge variant="secondary" className="w-fit mx-auto">{plan.leads}</Badge>
+                                <CardDescription className="pt-4">{plan.description}</CardDescription>
                             </CardHeader>
-                            <CardContent className="space-y-4">
-                                <ul className="space-y-2">
+                            <CardContent className="flex-grow">
+                                <ul className="space-y-3">
                                     {plan.features.map((feature, index) => (
-                                         <li key={index} className="flex items-center">
-                                            <CheckCircle2 className={`w-5 h-5 mr-2 ${plan.isPopular ? 'text-primary' : 'text-accent'}`} />
-                                            {feature}
+                                         <li key={index} className="flex items-start">
+                                            <CheckCircle2 className="w-5 h-5 mr-2 mt-1 text-accent shrink-0" />
+                                            <span>{feature}</span>
                                         </li>
                                     ))}
                                 </ul>
                             </CardContent>
                             <CardFooter>
                                 <Button variant={plan.isPopular ? 'default' : 'outline'} className="w-full" asChild>
-                                    <Link href={plan.cta.href}>{plan.cta.text}</Link>
+                                    <Link href="/dashboard">Start Free Trial</Link>
                                 </Button>
                             </CardFooter>
                         </Card>
                     ))}
+                    <Card className="lg:col-span-1 md:col-span-2 text-center flex flex-col h-full glassmorphism border">
+                         <CardHeader>
+                             <CardTitle className="font-headline text-2xl">All Plans Include</CardTitle>
+                         </CardHeader>
+                         <CardContent className="space-y-6 flex-grow">
+                             {allPlansInclude.map((item, index) => (
+                                 <div key={index}>
+                                     <h4 className="font-semibold text-lg flex items-center justify-center gap-2"><item.icon className="w-5 h-5 text-primary" />{item.title}</h4>
+                                     <p className="text-muted-foreground text-sm">{item.description}</p>
+                                 </div>
+                             ))}
+                         </CardContent>
+                         <CardFooter className="flex-col gap-2">
+                             <p className="text-sm text-muted-foreground">Start with any plan and upgrade anytime. Cancel or downgrade without penalties.</p>
+                         </CardFooter>
+                    </Card>
                 </div>
             </div>
         </section>
@@ -504,5 +516,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
