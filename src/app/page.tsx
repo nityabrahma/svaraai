@@ -464,9 +464,9 @@ export default function Home() {
         </section>
 
         <section className="py-20">
-            <div className="container mx-auto px-4 sm-px-6 lg:px-8 text-center glassmorphism rounded-lg py-12 max-w-4xl border">
-                 <h2 className="text-3xl md:text-4xl font-headline font-bold">Ready to Supercharge Your Sales?</h2>
-                 <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">Join hundreds of companies finding their next customer with Svara.</p>
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center glassmorphism rounded-lg py-12 max-w-4xl border">
+                 <h2 className="text-3xl md:text-4xl font-headline font-bold">Start Your Free Trial Today</h2>
+                 <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">Join thousands of successful sales professionals and agencies transforming their outreach with Svara's AI automation platform.</p>
                  <Button size="lg" asChild className="mt-8">
                     <Link href="/dashboard">
                     Sign Up for Free <ArrowRight className="ml-2" />
@@ -520,5 +520,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
