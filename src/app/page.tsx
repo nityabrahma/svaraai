@@ -233,7 +233,7 @@ export default function Home() {
         </section>
         
         <div className="relative py-12">
-            <Marquee pauseOnHover className="[--duration:60s]">
+            <Marquee pauseOnHover className="[--duration:30s]">
                 {marqueeItems.map((item) => (
                     <div key={item} className="px-6 py-2 mx-2 text-muted-foreground bg-muted/50 rounded-full border">
                         {item}
@@ -383,7 +383,7 @@ export default function Home() {
                     <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">Don't just take our word for it. Here's what our customers are saying.</p>
                 </div>
                 <div className="relative">
-                    <Marquee pauseOnHover className="[--duration:60s]">
+                    <Marquee pauseOnHover className="[--duration:30s]">
                         {testimonials.map((testimonial, index) => (
                              <Card key={`${testimonial.name}-${index}`} className="flex flex-col w-[350px] mx-4 h-full glassmorphism border">
                                 <CardContent className="pt-6">
