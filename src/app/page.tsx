@@ -11,6 +11,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 
 
 export default function Home() {
@@ -313,7 +314,10 @@ export default function Home() {
                                                       <div className="flex justify-between items-center">
                                                           <span className="text-sm font-medium">{item.name}</span>
                                                           <Badge variant={item.status === 'Active' || item.status === 'Generated' || item.status === 'Ready' ? 'default' : 'secondary'}
-                                                            className={item.status === 'Active' || item.status === 'Generated' ? 'bg-accent text-accent-foreground' : ''}>
+                                                            className={cn(
+                                                                {'bg-green-500/20 text-green-500': item.status === 'Active' || item.status === 'Generated' || item.status === 'Ready'},
+                                                                {'bg-amber-500/20 text-amber-500': item.status === 'Draft'},
+                                                            )}>
                                                             {item.status}
                                                           </Badge>
                                                       </div>
@@ -469,10 +473,11 @@ export default function Home() {
                 <h2 className="text-3xl md:text-4xl font-headline font-bold">Start Your Free Trial Today</h2>
                 <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">Join thousands of successful sales professionals and agencies transforming their outreach with Svara's AI automation platform.</p>
                 <form className="mt-8 max-w-lg mx-auto">
-                    <div className="flex flex-col sm:flex-row gap-4">
-                        <Input type="text" placeholder="Your Name" className="text-center sm:text-left"/>
-                        <Input type="email" placeholder="your@email.com" className="text-center sm:text-left"/>
-                        <Button size="lg" type="submit" className="w-full sm:w-auto">
+                    <div className="flex flex-col gap-4">
+                        <Input type="text" placeholder="Your Name" className="text-left bg-transparent border-input" />
+                        <Input type="email" placeholder="your@email.com" className="text-left bg-transparent border-input" />
+                        <Textarea placeholder="Your message..." className="text-left bg-transparent border-input" />
+                        <Button size="lg" type="submit" className="w-full">
                            Start Free Trial
                         </Button>
                     </div>
