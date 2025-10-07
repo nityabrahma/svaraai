@@ -11,6 +11,8 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 
 
 export default function Home() {
+  const marqueeItems = ["DIGITAL AGENCIES", "SALES AUTOMATION", "ENTERPRISE RESELLERS", "SAAS ENTREPRENEURS"];
+
   return (
     <div className="flex flex-col min-h-screen">
       <header className="sticky top-0 z-50 w-full border-b glassmorphism">
@@ -86,7 +88,22 @@ export default function Home() {
               Start Free Trial <ArrowRight className="ml-2" />
             </Link>
           </Button>
+           <p className="text-sm text-muted-foreground mt-4">
+              Multi-tenant ready • White-label included • 70M+ business records
+            </p>
         </section>
+        
+        <div className="relative py-12">
+            <Marquee pauseOnHover className="[--duration:60s]">
+                {marqueeItems.map((item) => (
+                    <div key={item} className="px-6 py-2 mx-2 text-muted-foreground bg-muted/50 rounded-full border">
+                        {item}
+                    </div>
+                ))}
+            </Marquee>
+             <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-background to-transparent"></div>
+            <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-background to-transparent"></div>
+        </div>
 
         <section id="features" className="py-20">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
