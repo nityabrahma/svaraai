@@ -1,3 +1,4 @@
+
 import { Building, Users, Briefcase, Rocket, UserCheck, Server } from 'lucide-react';
 
 export const features = [
@@ -110,7 +111,7 @@ export const pricingPlans = [
         isPopular: false,
         cta: {
             text: 'Get Started',
-            href: '/signup'
+            href: '/dashboard'
         }
     },
     {
@@ -126,7 +127,7 @@ export const pricingPlans = [
         isPopular: true,
         cta: {
             text: 'Choose Pro',
-            href: '/signup'
+            href: '/dashboard'
         }
     },
     {
@@ -146,3 +147,5 @@ export const pricingPlans = [
         }
     }
 ]
+
+    

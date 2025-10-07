@@ -405,8 +405,8 @@ export default function Home() {
         <section id="pricing" className="py-20">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                  <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl font-headline font-bold">Simple, Transparent Pricing</h2>
-                    <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">Choose the plan that's right for your team.</p>
+                    <h2 className="text-3xl md:text-4xl font-headline font-bold">Choose Your Plan</h2>
+                    <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">Start with our free trial and scale as you grow. All plans include our complete AI automation platform.</p>
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
                     {pricingPlans.map(plan => (
@@ -504,3 +504,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
