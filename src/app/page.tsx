@@ -1,7 +1,7 @@
 
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Bot, Check, CheckCircle2, Menu, Cpu, Rocket, Target, Users, BookUser, FileText, Send, Sparkles } from 'lucide-react';
+import { ArrowRight, Bot, Check, CheckCircle2, Menu, Cpu, Rocket, Target, Users, BookUser, FileText, Send, Sparkles, DatabaseZap, Building2, Combine, Palette } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ThemeSwitcher } from '@/components/theme-switcher';
@@ -109,18 +109,22 @@ export default function Home() {
 
     const differentItems = [
         {
+            icon: DatabaseZap,
             title: "Owned Data (70M+ Records)",
             description: "Eliminates ongoing data costs. No external subscriptions needed."
         },
         {
+            icon: Building2,
             title: "Multi-Tenant SaaS Architecture",
             description: "Launch your own SaaS company instantly with built-in user management."
         },
         {
+            icon: Combine,
             title: "AI + Human Control",
             description: "AI generates sequences, humans can edit and approve. Perfect balance."
         },
         {
+            icon: Palette,
             title: "White-Label Ready",
             description: "Custom branding, domain, and user role management included."
         }
@@ -339,9 +343,12 @@ export default function Home() {
                         </CardHeader>
                         <CardContent className="space-y-6">
                             {differentItems.map(item => (
-                                <div key={item.title}>
-                                    <h4 className="font-semibold text-lg">{item.title}</h4>
-                                    <p className="text-muted-foreground">{item.description}</p>
+                                <div key={item.title} className="flex items-start gap-4">
+                                    <item.icon className="w-8 h-8 text-primary shrink-0 mt-1" />
+                                    <div>
+                                        <h4 className="font-semibold text-lg">{item.title}</h4>
+                                        <p className="text-muted-foreground">{item.description}</p>
+                                    </div>
                                 </div>
                             ))}
                         </CardContent>
