@@ -357,11 +357,11 @@ export default function Home() {
                         <CardHeader>
                             <CardTitle className="font-headline text-2xl">ROI & Results</CardTitle>
                         </CardHeader>
-                        <CardContent className="grid grid-cols-2 gap-8">
-                             {roiItems.map(item => (
-                                <div key={item.metric} className="text-center">
-                                    <p className="text-4xl font-bold text-primary">{item.metric}</p>
-                                    <p className="text-sm text-muted-foreground">{item.description}</p>
+                        <CardContent className="grid grid-cols-2 gap-4">
+                             {roiItems.map((item, index) => (
+                                <div key={item.metric} className="text-center bg-muted/50 p-4 rounded-lg">
+                                    <p className="text-3xl lg:text-4xl font-bold text-primary">{item.metric}</p>
+                                    <p className="text-sm text-muted-foreground mt-2">{item.description}</p>
                                 </div>
                             ))}
                         </CardContent>
