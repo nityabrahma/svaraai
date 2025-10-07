@@ -1,11 +1,13 @@
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Bot, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, Bot, CheckCircle2, Menu } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ThemeSwitcher } from '@/components/theme-switcher';
 import { features, testimonials, pricingPlans } from '@/lib/landing-page-data';
 import Marquee from '@/components/ui/marquee';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
 
 export default function Home() {
@@ -24,7 +26,7 @@ export default function Home() {
                 <Link href="#" className="text-sm font-medium hover:text-primary transition-colors">Pipeline</Link>
                 <Link href="#testimonials" className="text-sm font-medium hover:text-primary transition-colors">Customers</Link>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="hidden md:flex items-center gap-4">
                 <Button variant="ghost" asChild>
                     <Link href="/dashboard">Log In</Link>
                 </Button>
@@ -33,6 +35,36 @@ export default function Home() {
                     Start Free Trial
                     </Link>
                 </Button>
+            </div>
+            <div className="md:hidden">
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon">
+                            <Menu className="h-6 w-6" />
+                            <span className="sr-only">Open menu</span>
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-screen max-w-[calc(100vw-2rem)] sm:max-w-xs" align="end">
+                        <DropdownMenuItem asChild>
+                            <Link href="#features">Features</Link>
+                        </DropdownMenuItem>
+                         <DropdownMenuItem asChild>
+                            <Link href="#pricing">Pricing</Link>
+                        </DropdownMenuItem>
+                         <DropdownMenuItem asChild>
+                            <Link href="#">Pipeline</Link>
+                        </DropdownMenuItem>
+                         <DropdownMenuItem asChild>
+                            <Link href="#testimonials">Customers</Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                            <Link href="/dashboard">Log In</Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                            <Link href="/dashboard">Start Free Trial</Link>
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
             </div>
             </div>
         </div>
@@ -216,3 +248,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
