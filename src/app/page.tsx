@@ -107,6 +107,44 @@ export default function Home() {
     },
   ]
 
+    const differentItems = [
+        {
+            title: "Owned Data (70M+ Records)",
+            description: "Eliminates ongoing data costs. No external subscriptions needed."
+        },
+        {
+            title: "Multi-Tenant SaaS Architecture",
+            description: "Launch your own SaaS company instantly with built-in user management."
+        },
+        {
+            title: "AI + Human Control",
+            description: "AI generates sequences, humans can edit and approve. Perfect balance."
+        },
+        {
+            title: "White-Label Ready",
+            description: "Custom branding, domain, and user role management included."
+        }
+    ];
+
+    const roiItems = [
+        {
+            metric: "2-5x",
+            description: "Faster campaign deployment vs manual setup"
+        },
+        {
+            metric: "10x",
+            description: "Higher response rates via AI personalization"
+        },
+        {
+            metric: "20-40x",
+            description: "ROI within first 90 days of implementation"
+        },
+        {
+            metric: "$30K-$50K",
+            description: "Development cost saved vs building from scratch"
+        }
+    ];
+
   return (
     <div className="flex flex-col min-h-screen">
       <header className="sticky top-0 z-50 w-full border-b glassmorphism">
@@ -251,7 +289,7 @@ export default function Home() {
                                 </Button>
                             </div>
                             <div className={`relative ${index % 2 !== 0 ? 'lg:col-start-1' : ''}`}>
-                                <Card className="p-6 bg-background shadow-2xl">
+                                <Card className="p-6 bg-background shadow-2xl border">
                                     <CardHeader className="p-0 pb-4">
                                         <CardTitle className="text-lg font-semibold flex items-center gap-2"><step.icon className="w-5 h-5 text-primary"/>{step.visual.title}</CardTitle>
                                     </CardHeader>
@@ -293,6 +331,34 @@ export default function Home() {
                 <div className="text-center mb-12 max-w-3xl mx-auto">
                     <h2 className="text-3xl md:text-4xl font-headline font-bold">Why Svara Stands Out</h2>
                     <p className="text-lg text-muted-foreground mt-2">Most sales tools are either too complex (requiring heavy training) or too basic (no real AI automation). Svara bridges this gap with enterprise-grade features in a simple 4-step process.</p>
+                </div>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                     <Card className="glassmorphism border">
+                        <CardHeader>
+                            <CardTitle className="font-headline text-2xl">What Makes Svara Different</CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-6">
+                            {differentItems.map(item => (
+                                <div key={item.title}>
+                                    <h4 className="font-semibold text-lg">{item.title}</h4>
+                                    <p className="text-muted-foreground">{item.description}</p>
+                                </div>
+                            ))}
+                        </CardContent>
+                    </Card>
+                     <Card className="glassmorphism border">
+                        <CardHeader>
+                            <CardTitle className="font-headline text-2xl">ROI & Results</CardTitle>
+                        </CardHeader>
+                        <CardContent className="grid grid-cols-2 gap-8">
+                             {roiItems.map(item => (
+                                <div key={item.metric} className="text-center">
+                                    <p className="text-4xl font-bold text-primary">{item.metric}</p>
+                                    <p className="text-sm text-muted-foreground">{item.description}</p>
+                                </div>
+                            ))}
+                        </CardContent>
+                    </Card>
                 </div>
             </div>
         </section>
@@ -375,7 +441,7 @@ export default function Home() {
         </section>
 
         <section className="py-20">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center glassmorphism rounded-lg py-12 max-w-4xl">
+            <div className="container mx-auto px-4 sm-px-6 lg:px-8 text-center glassmorphism rounded-lg py-12 max-w-4xl border">
                  <h2 className="text-3xl md:text-4xl font-headline font-bold">Ready to Supercharge Your Sales?</h2>
                  <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">Join hundreds of companies finding their next customer with Svara.</p>
                  <Button size="lg" asChild className="mt-8">
@@ -431,7 +497,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
-
-    
