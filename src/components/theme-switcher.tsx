@@ -1,4 +1,3 @@
-
 'use client'
 
 import { Laptop, Moon, Sun } from 'lucide-react'
@@ -18,29 +17,22 @@ export function ThemeSwitcher() {
     setMounted(true)
   }, [])
 
-  const handleThemeChange = (newTheme: string) => {
-    if (newTheme === 'system') {
-      localStorage.removeItem('theme')
-    }
-    setTheme(newTheme)
-  }
-
   if (!mounted) {
-    return <Skeleton className="h-10 w-[114px] rounded-full" />
+    return <Skeleton className="h-10 w-[124px] rounded-full" />
   }
 
   return (
     <RadioGroup
       value={theme}
-      onValueChange={handleThemeChange}
-      className="flex items-center space-x-1 rounded-full border p-1"
+      onValueChange={setTheme}
+      className="flex items-center space-x-1 rounded-full border p-1 bg-background/80"
     >
       <RadioGroupItem value="light" id="light" className="sr-only" />
       <Label
         htmlFor="light"
         className={cn(
-            "flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-2 border-transparent transition-colors hover:bg-accent/50",
-            theme === 'light' && 'bg-accent'
+            "flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-2 border-transparent transition-colors hover:bg-primary/10",
+            theme === 'light' && 'bg-primary text-primary-foreground'
         )}
       >
         <Sun className="h-5 w-5" />
@@ -51,8 +43,8 @@ export function ThemeSwitcher() {
       <Label
         htmlFor="dark"
         className={cn(
-            "flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-2 border-transparent transition-colors hover:bg-accent/50",
-            theme === 'dark' && 'bg-accent'
+            "flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-2 border-transparent transition-colors hover:bg-primary/10",
+            theme === 'dark' && 'bg-primary text-primary-foreground'
         )}
       >
         <Moon className="h-5 w-5" />
@@ -63,8 +55,8 @@ export function ThemeSwitcher() {
       <Label
         htmlFor="system"
         className={cn(
-            "flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-2 border-transparent transition-colors hover:bg-accent/50",
-            theme === 'system' && 'bg-accent'
+            "flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-2 border-transparent transition-colors hover:bg-primary/10",
+            theme === 'system' && 'bg-primary text-primary-foreground'
         )}
       >
         <Laptop className="h-5 w-5" />
