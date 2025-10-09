@@ -1,7 +1,7 @@
 'use client'
 
 import { Laptop, Moon, Sun } from 'lucide-react'
-import { useTheme } from 'next-themes'
+import { useTheme } from '@/components/theme-provider'
 
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
@@ -24,7 +24,7 @@ export function ThemeSwitcher() {
   return (
     <RadioGroup
       value={theme}
-      onValueChange={setTheme}
+      onValueChange={(value: 'light' | 'dark' | 'system') => setTheme(value)}
       className="flex items-center space-x-1 rounded-full border p-1 bg-background/80"
     >
       <RadioGroupItem value="light" id="light" className="sr-only" />

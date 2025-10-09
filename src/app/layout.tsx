@@ -24,10 +24,7 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased">
          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
+            storageKey="vite-ui-theme"
         >
             <BackgroundDecorations />
             {children}
