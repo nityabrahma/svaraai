@@ -48,6 +48,7 @@ export function ThemeProvider({
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
     const handleChange = () => {
+      // Only apply system theme if the current theme is 'system'
       if (theme === 'system') {
         applyTheme('system')
       }
@@ -61,8 +62,10 @@ export function ThemeProvider({
     setTheme: (newTheme: Theme) => {
       if (typeof window !== 'undefined') {
         if (newTheme === 'system') {
+          // If setting to system, remove the item from storage
           localStorage.removeItem(storageKey)
         } else {
+          // Otherwise, save the selected theme
           localStorage.setItem(storageKey, newTheme)
         }
       }
