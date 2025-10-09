@@ -1,3 +1,4 @@
+
 'use client'
 
 import { Laptop, Moon, Sun } from 'lucide-react'
@@ -17,6 +18,13 @@ export function ThemeSwitcher() {
     setMounted(true)
   }, [])
 
+  const handleThemeChange = (newTheme: string) => {
+    if (newTheme === 'system') {
+      localStorage.removeItem('theme')
+    }
+    setTheme(newTheme)
+  }
+
   if (!mounted) {
     return <Skeleton className="h-10 w-[114px] rounded-full" />
   }
@@ -24,7 +32,7 @@ export function ThemeSwitcher() {
   return (
     <RadioGroup
       value={theme}
-      onValueChange={setTheme}
+      onValueChange={handleThemeChange}
       className="flex items-center space-x-1 rounded-full border p-1"
     >
       <RadioGroupItem value="light" id="light" className="sr-only" />
