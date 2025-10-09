@@ -15,12 +15,11 @@ const ThemeProviderContext = createContext<ThemeProviderState | undefined>(undef
 export function ThemeProvider({
   children,
   defaultTheme = 'system',
-  storageKey = 'vite-ui-theme',
 }: {
   children: React.ReactNode
   defaultTheme?: Theme
-  storageKey?: string
 }) {
+  const storageKey = 'vite-ui-theme';
   const [theme, setTheme] = useState<Theme>(() => {
     if (typeof window === 'undefined') {
       return defaultTheme
@@ -48,14 +47,14 @@ export function ThemeProvider({
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
     const handleChange = () => {
-      // Only apply system theme if the current theme is 'system'
-      if (theme === 'system') {
+      // Only re-apply if the current theme is 'system'
+      if ((localStorage.getItem(storageKey) || 'system') === 'system') {
         applyTheme('system')
       }
     }
     mediaQuery.addEventListener('change', handleChange)
     return () => mediaQuery.removeEventListener('change', handleChange)
-  }, [theme, applyTheme])
+  }, [applyTheme])
  
   const value = {
     theme,
