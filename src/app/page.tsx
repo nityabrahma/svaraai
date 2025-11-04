@@ -5,6 +5,7 @@ import FeaturesSection from "@/components/landing-page/features-section";
 import HeroSection from "@/components/landing-page/hero-section";
 import LandingFooter from "@/components/landing-page/landing-footer";
 import LandingHeader from "@/components/landing-page/landing-header";
+import PartnersSection from "@/components/landing-page/partners-section";
 import PricingSection from "@/components/landing-page/pricing-section";
 import StandOutSection from "@/components/landing-page/stand-out-section";
 import SystemSection from "@/components/landing-page/system-section";
@@ -17,6 +18,7 @@ export default function Home() {
       <LandingHeader />
       <main className="flex-grow">
         <HeroSection />
+        <PartnersSection />
         <ClientsMarquee />
         <FeaturesSection />
         <SystemSection />

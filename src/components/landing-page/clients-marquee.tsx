@@ -2,7 +2,7 @@
 import Marquee from "@/components/ui/marquee";
 
 export default function ClientsMarquee() {
-    const marqueeItems = ["DIGITAL AGENCIES", "SALES AUTOMATION", "CB Engineering works", "ENTERPRISE RESELLERS", "LeoSphere Global", "SAAS ENTREPRENEURS", "McKH Technologies"];
+    const marqueeItems = ["DIGITAL AGENCIES", "SALES AUTOMATION", "ENTERPRISE RESELLERS", "SAAS ENTREPRENEURS"];
     return (
         <div className="relative py-12">
             <Marquee pauseOnHover className="[--duration:30s]">
