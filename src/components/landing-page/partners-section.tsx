@@ -1,11 +1,12 @@
 
+import Image from "next/image";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
 const partners = [
-    { name: "CB Engineering works", className: "rotate-2" },
+    { name: "CB Engineering works", logo: "/cbeng-logo.png", className: "rotate-2" },
     { name: "LeoSphere Global", className: "-rotate-3" },
-    { name: "McKH Technologies", className: "rotate-1" },
+    { name: "McKH Technologies", logo: "/McKH-logo.png", className: "rotate-1" },
 ];
 
 export default function PartnersSection() {
@@ -24,7 +25,17 @@ export default function PartnersSection() {
                             "p-6 w-64 h-32 flex items-center justify-center text-center font-headline text-xl glassmorphism transform transition-transform duration-300 hover:scale-105 hover:shadow-primary/20",
                             partner.className
                          )}>
-                            {partner.name}
+                            {partner.logo ? (
+                                <Image
+                                    src={partner.logo}
+                                    alt={`${partner.name} logo`}
+                                    width={180}
+                                    height={80}
+                                    className="object-contain"
+                                />
+                            ) : (
+                                partner.name
+                            )}
                         </Card>
                     ))}
                 </div>
