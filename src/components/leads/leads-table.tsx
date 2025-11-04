@@ -44,7 +44,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
-import { enrichLeadDataWithLLM } from '@/ai/flows/enrich-lead-data-with-llm'
 import { deleteLead } from '@/lib/local-storage-api'
 import { useCollection } from '@/hooks/use-collection'
 
@@ -71,24 +70,16 @@ const LeadActions = ({ row }: { row: Row<Lead> }) => {
         setIsEnriching(true);
         toast({
             title: 'Enriching lead...',
-            description: `AI is enriching "${lead.name}". This may take a moment.`,
+            description: `Mock enrichment for "${lead.name}".`,
         });
         try {
-            const result = await enrichLeadDataWithLLM({
-                leadName: lead.name,
-                leadDescription: lead.summary || '',
-                existingData: {
-                  type: lead.type,
-                  domain: lead.domain,
-                  title: lead.title,
-                }
-            });
-            // You would typically update the lead in storage with `result.enrichedData`
-            console.log('Enrichment result:', result);
+            // Mock enrichment
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            console.log('Mock enrichment complete for:', lead.name);
 
             toast({
-                title: 'Lead enriched!',
-                description: `AI summary: ${result.summary}`,
+                title: 'Lead enriched! (Mock)',
+                description: `Successfully ran mock enrichment for ${lead.name}`,
             });
 
         } catch (error) {
@@ -96,7 +87,7 @@ const LeadActions = ({ row }: { row: Row<Lead> }) => {
             toast({
                 variant: 'destructive',
                 title: 'Enrichment failed',
-                description: 'The AI could not enrich the lead data.',
+                description: 'The mock enrichment failed.',
             });
         } finally {
             setIsEnriching(false);

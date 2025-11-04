@@ -38,7 +38,7 @@ export default function Header({ onToggleSidebar }: { onToggleSidebar: () => voi
   const handleLogout = async () => {
     try {
       await signOut();
-      router.push('/login');
+      router.push('/');
       toast({
         title: 'Logged out',
         description: 'You have been successfully logged out.',

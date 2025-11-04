@@ -11,7 +11,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/hooks/use-toast';
 import { useUser } from '@/hooks/use-user';
-import { automaticallyScoreLeads } from '@/ai/flows/automatically-score-leads';
 import { createLead } from '@/lib/local-storage-api';
 import { useCollection } from '@/hooks/use-collection';
 
@@ -46,19 +45,19 @@ export default function NewLeadDialog({ open, onOpenChange }: NewLeadDialogProps
     }
     
     try {
-        const scoringToast = toast({ title: 'Scoring lead...', description: 'AI is calculating the lead score.'});
-        const scoreResult = await automaticallyScoreLeads({
-            leadId: '', // No ID yet
-            validationData: {manualEntry: true},
-            enrichmentData: data,
-        });
-        scoringToast.update({ id: scoringToast.id, title: 'Lead Scored!', description: `AI-assigned score: ${scoreResult.score}` });
+        const scoringToast = toast({ title: 'Scoring lead...', description: 'Calculating the lead score.'});
+        
+        // Mock scoring
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        const score = Math.floor(Math.random() * (95 - 65 + 1)) + 65;
+
+        scoringToast.update({ id: scoringToast.id, title: 'Lead Scored!', description: `Assigned score: ${score}` });
 
         const leadData = {
           ...data,
-          orgId: user.uid, // Using uid as orgId for simplicity
+          orgId: user.uid,
           status: 'new' as const,
-          score: scoreResult.score,
+          score: score,
         };
         
         await createLead(leadData);

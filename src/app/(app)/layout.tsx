@@ -6,6 +6,9 @@ import { useState, useEffect } from 'react';
 import { SidebarProvider, Sidebar, SidebarInset } from '@/components/ui/sidebar';
 import AppSidebar from '@/components/layout/app-sidebar';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useAuth } from '@/hooks/use-auth';
+import { useRouter } from 'next/navigation';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function AppLayout({
   children,
@@ -14,13 +17,35 @@ export default function AppLayout({
 }>) {
   const isMobile = useIsMobile();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { user, loading } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
-    // Default to open on desktop, closed on mobile
     if (typeof window !== 'undefined') {
         setSidebarOpen(!isMobile);
     }
   }, [isMobile]);
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.replace('/');
+    }
+  }, [user, loading, router]);
+
+
+  if (loading || !user) {
+    return (
+        <div className="flex h-screen w-screen items-center justify-center">
+            <div className="flex flex-col items-center gap-4">
+                <Skeleton className="h-12 w-12 rounded-full" />
+                <div className="space-y-2">
+                    <Skeleton className="h-4 w-[250px]" />
+                    <Skeleton className="h-4 w-[200px]" />
+                </div>
+            </div>
+        </div>
+    )
+  }
 
   return (
     <SidebarProvider open={sidebarOpen} onOpenChange={setSidebarOpen}>
