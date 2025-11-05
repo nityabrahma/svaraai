@@ -16,7 +16,7 @@ export default function LandingHeader() {
         <div className="flex justify-between items-center h-16">
           <Link href="/" className="flex items-center gap-2">
             <Bot className="w-8 h-8 text-primary" />
-            <span className="text-2xl font-bold font-headline">Svara</span>
+            <span className="text-2xl font-bold font-headline">SVARAAI.LTD</span>
           </Link>
           <div className="hidden md:flex items-center gap-6">
             <Link

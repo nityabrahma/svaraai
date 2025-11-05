@@ -11,7 +11,7 @@ export default function LandingFooter() {
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-2">
               <Bot className="w-8 h-8 text-primary" />
-              <span className="text-xl font-bold font-headline">Svara</span>
+              <span className="text-xl font-bold font-headline">SVARAAI.LTD</span>
             </Link>
             <p className="text-muted-foreground text-sm max-w-xs">
               AI-powered lead generation to fuel your growth.
@@ -75,7 +75,7 @@ export default function LandingFooter() {
         </div>
         <div className="mt-8 border-t pt-8 flex flex-col sm:flex-row justify-between items-center">
           <p className="text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} Svara. All rights reserved.
+            &copy; {new Date().getFullYear()} SVARAAI.LTD. All rights reserved.
           </p>
           <ThemeSwitcher />
         </div>

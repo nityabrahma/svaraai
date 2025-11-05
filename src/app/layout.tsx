@@ -6,7 +6,7 @@ import BackgroundDecorations from '@/components/background-decorations';
 
 
 export const metadata: Metadata = {
-  title: 'LeadPilot AI',
+  title: 'SVARAAI.LTD',
   description: 'High-quality, actionable leads to clients on a freemium subscription model.',
 };
 

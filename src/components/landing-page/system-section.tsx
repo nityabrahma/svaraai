@@ -12,7 +12,7 @@ export default function SystemSection() {
             icon: BookUser,
             title: "Add Products",
             heading: "Define Your Products & Services",
-            description: "Simply add your products or services to the platform. Svara's AI will understand your value proposition and create targeted messaging for each offering.",
+            description: "Simply add your products or services to the platform. SVARAAI.LTD's AI will understand your value proposition and create targeted messaging for each offering.",
             points: [
                 "Product catalog with AI-powered descriptions",
                 "Automatic value proposition generation",
@@ -34,7 +34,7 @@ export default function SystemSection() {
             icon: Users,
             title: "Create Campaigns",
             heading: "Access 70M+ Business Records & 45M+ LinkedIn Profiles",
-            description: "Tap into Svara's massive proprietary database. No external data costs. No outdated lists. Just verified, enriched leads ready for outreach.",
+            description: "Tap into SVARAAI.LTD's massive proprietary database. No external data costs. No outdated lists. Just verified, enriched leads ready for outreach.",
             points: [
                 "70M+ US business records with verified contacts",
                 "45M+ LinkedIn profiles with engagement data",
@@ -103,7 +103,7 @@ export default function SystemSection() {
         <section id="system" className="py-20 bg-card/50">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-16">
-                    <h2 className="text-3xl md:text-4xl font-headline font-bold">The 4-Step Svara System</h2>
+                    <h2 className="text-3xl md:text-4xl font-headline font-bold">The 4-Step SVARAAI.LTD System</h2>
                     <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">Enterprise-grade AI automation in a simple process that anyone can master. From product setup to campaign launch - everything is automated.</p>
                 </div>
                 <div className="space-y-24">

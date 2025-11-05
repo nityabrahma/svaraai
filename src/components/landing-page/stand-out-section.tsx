@@ -49,13 +49,13 @@ export default function StandOutSection() {
         <section id="stand-out" className="py-20">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-12 max-w-3xl mx-auto">
-                    <h2 className="text-3xl md:text-4xl font-headline font-bold">Why Svara Stands Out</h2>
-                    <p className="text-lg text-muted-foreground mt-2">Most sales tools are either too complex (requiring heavy training) or too basic (no real AI automation). Svara bridges this gap with enterprise-grade features in a simple 4-step process.</p>
+                    <h2 className="text-3xl md:text-4xl font-headline font-bold">Why SVARAAI.LTD Stands Out</h2>
+                    <p className="text-lg text-muted-foreground mt-2">Most sales tools are either too complex (requiring heavy training) or too basic (no real AI automation). SVARAAI.LTD bridges this gap with enterprise-grade features in a simple 4-step process.</p>
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
                      <Card className="glassmorphism border">
                         <CardHeader>
-                            <CardTitle className="font-headline text-2xl">What Makes Svara Different</CardTitle>
+                            <CardTitle className="font-headline text-2xl">What Makes SVARAAI.LTD Different</CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-6">
                             {differentItems.map(item => (

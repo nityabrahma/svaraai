@@ -38,7 +38,7 @@ export default function AppSidebar() {
         <div className={cn("flex h-16 items-center border-b", state === "expanded" ? "justify-start px-4" : "justify-center")}>
             <Link href="/dashboard" className={cn("flex items-center font-semibold font-headline", state === 'expanded' && 'gap-2')}>
             <Bot className="h-6 w-6 text-primary shrink-0" />
-            <span className={cn('overflow-hidden transition-all', { 'w-0': state === 'collapsed', 'w-auto': state === 'expanded' })}>LeadPilot AI</span>
+            <span className={cn('overflow-hidden transition-all', { 'w-0': state === 'collapsed', 'w-auto': state === 'expanded' })}>SVARAAI.LTD</span>
             </Link>
         </div>
         <ScrollArea className="flex-1">

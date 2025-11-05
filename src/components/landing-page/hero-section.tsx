@@ -13,7 +13,7 @@ export default function HeroSection() {
             Launch Your Own AI Sales SaaS in 4 Simple Steps
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-10">
-            From 70M+ business records to AI-generated sequences to white-label deployment - Svara is the complete sales automation platform that transforms your outreach with intelligent AI automation.
+            From 70M+ business records to AI-generated sequences to white-label deployment - SVARAAI.LTD is the complete sales automation platform that transforms your outreach with intelligent AI automation.
           </p>
           <Button size="lg" asChild>
             <Link href="/dashboard">
