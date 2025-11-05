@@ -3,7 +3,7 @@
  
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react'
  
-type Theme = 'dark' | 'light' | 'system'
+type Theme = 'dark' | 'light'
  
 type ThemeProviderState = {
   theme: Theme
@@ -14,59 +14,40 @@ const ThemeProviderContext = createContext<ThemeProviderState | undefined>(undef
  
 export function ThemeProvider({
   children,
-  defaultTheme = 'system',
+  defaultTheme = 'light',
 }: {
   children: React.ReactNode
   defaultTheme?: Theme
 }) {
   const storageKey = 'vite-ui-theme';
+
   const [theme, setTheme] = useState<Theme>(() => {
     if (typeof window === 'undefined') {
       return defaultTheme
     }
-    return (localStorage.getItem(storageKey) as Theme) || defaultTheme
+    const storedTheme = localStorage.getItem(storageKey) as Theme | null;
+    if (storedTheme) {
+        return storedTheme;
+    }
+    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    return systemTheme;
   })
  
   const applyTheme = useCallback((themeToApply: Theme) => {
     const root = window.document.documentElement
     root.classList.remove('light', 'dark')
- 
-    if (themeToApply === 'system') {
-      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-      root.classList.add(systemTheme)
-      return
-    }
- 
     root.classList.add(themeToApply)
   }, [])
  
   useEffect(() => {
     applyTheme(theme)
   }, [theme, applyTheme])
- 
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-    const handleChange = () => {
-      // Only re-apply if the current theme is 'system'
-      if ((localStorage.getItem(storageKey) || 'system') === 'system') {
-        applyTheme('system')
-      }
-    }
-    mediaQuery.addEventListener('change', handleChange)
-    return () => mediaQuery.removeEventListener('change', handleChange)
-  }, [applyTheme])
- 
+
   const value = {
     theme,
     setTheme: (newTheme: Theme) => {
       if (typeof window !== 'undefined') {
-        if (newTheme === 'system') {
-          // If setting to system, remove the item from storage
-          localStorage.removeItem(storageKey)
-        } else {
-          // Otherwise, save the selected theme
           localStorage.setItem(storageKey, newTheme)
-        }
       }
       setTheme(newTheme)
     },
@@ -85,6 +66,5 @@ export const useTheme = () => {
   if (context === undefined) {
     throw new Error('useTheme must be used within a ThemeProvider')
   }
- 
   return context
 }

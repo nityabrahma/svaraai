@@ -1,7 +1,7 @@
 
 'use client'
 
-import { Laptop, Moon, Sun } from 'lucide-react'
+import { Moon, Sun } from 'lucide-react'
 import { useTheme } from '@/components/theme-provider'
 
 import { Label } from '@/components/ui/label'
@@ -19,13 +19,13 @@ export function ThemeSwitcher() {
   }, [])
 
   if (!mounted) {
-    return <Skeleton className="h-10 w-[124px] rounded-full" />
+    return <Skeleton className="h-10 w-[84px] rounded-full" />
   }
 
   return (
     <RadioGroup
       value={theme}
-      onValueChange={(value: 'light' | 'dark' | 'system') => setTheme(value)}
+      onValueChange={(value: 'light' | 'dark') => setTheme(value)}
       className="flex items-center space-x-1 rounded-full border p-1 bg-background/80"
     >
       <RadioGroupItem value="light" id="light" className="sr-only" />
@@ -50,18 +50,6 @@ export function ThemeSwitcher() {
       >
         <Moon className="h-5 w-5" />
         <span className="sr-only">Dark</span>
-      </Label>
-
-      <RadioGroupItem value="system" id="system" className="sr-only" />
-      <Label
-        htmlFor="system"
-        className={cn(
-            "flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-2 border-transparent transition-colors hover:bg-primary/10",
-            theme === 'system' && 'bg-primary text-primary-foreground'
-        )}
-      >
-        <Laptop className="h-5 w-5" />
-        <span className="sr-only">System</span>
       </Label>
     </RadioGroup>
   )
