@@ -31,7 +31,7 @@ export default function PartnersSection() {
                                     alt={`${partner.name} logo`}
                                     width={180}
                                     height={80}
-                                    className="object-contain"
+                                    className="object-contain rounded-lg"
                                 />
                             ) : (
                                 partner.name
