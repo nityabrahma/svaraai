@@ -8,9 +8,7 @@ import BackgroundDecorations from '@/components/background-decorations';
 export const metadata: Metadata = {
   title: 'SVARAAI.LTD',
   description: 'High-quality, actionable leads to clients on a freemium subscription model.',
-  icons: {
-    icon: '/svaaraai-logo.png',
-  },
+  icons: "/svaaraai-logo.png"
 };
 
 export default function RootLayout({
