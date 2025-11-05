@@ -1,7 +1,7 @@
 
 import Link from 'next/link';
-import { Bot } from 'lucide-react';
 import { ThemeSwitcher } from '@/components/theme-switcher';
+import Image from 'next/image';
 
 export default function LandingFooter() {
   return (
@@ -10,7 +10,7 @@ export default function LandingFooter() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-2">
-              <Bot className="w-8 h-8 text-primary" />
+               <Image src="/svaaraai-logo.png" alt="SVARAAI.LTD logo" width={32} height={32} />
               <span className="text-xl font-bold font-headline">SVARAAI.LTD</span>
             </Link>
             <p className="text-muted-foreground text-sm max-w-xs">

@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Bot, Gauge, Settings, Zap, Sparkles, Wand2, Send, Package, Megaphone, Database, Filter, CreditCard } from 'lucide-react';
+import { Gauge, Settings, Sparkles, Wand2, Send, Package, Megaphone, Database, Filter, CreditCard } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
   Tooltip,
@@ -14,6 +14,7 @@ import {
 import { useSidebar } from '../ui/sidebar';
 import { ThemeSwitcher } from '../theme-switcher';
 import { ScrollArea } from '../ui/scroll-area';
+import Image from 'next/image';
 
 const navItems = [
   { href: '/dashboard', icon: Gauge, label: 'Dashboard' },
@@ -37,7 +38,7 @@ export default function AppSidebar() {
     <div className="flex h-full flex-col glassmorphism">
         <div className={cn("flex h-16 items-center border-b", state === "expanded" ? "justify-start px-4" : "justify-center")}>
             <Link href="/dashboard" className={cn("flex items-center font-semibold font-headline", state === 'expanded' && 'gap-2')}>
-            <Bot className="h-6 w-6 text-primary shrink-0" />
+            <Image src="/svaaraai-logo.png" alt="SVARAAI.LTD logo" width={24} height={24} className="shrink-0" />
             <span className={cn('overflow-hidden transition-all', { 'w-0': state === 'collapsed', 'w-auto': state === 'expanded' })}>SVARAAI.LTD</span>
             </Link>
         </div>

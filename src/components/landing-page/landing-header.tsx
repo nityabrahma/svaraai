@@ -1,6 +1,6 @@
 
 import Link from 'next/link';
-import { Bot, Menu } from 'lucide-react';
+import { Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -8,6 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import Image from 'next/image';
 
 export default function LandingHeader() {
   return (
@@ -15,7 +16,7 @@ export default function LandingHeader() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link href="/" className="flex items-center gap-2">
-            <Bot className="w-8 h-8 text-primary" />
+            <Image src="/svaaraai-logo.png" alt="SVARAAI.LTD logo" width={32} height={32} />
             <span className="text-2xl font-bold font-headline">SVARAAI.LTD</span>
           </Link>
           <div className="hidden md:flex items-center gap-6">
